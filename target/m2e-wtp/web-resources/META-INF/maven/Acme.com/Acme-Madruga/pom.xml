@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- * pom.xml * * Copyright (C) 2018 Universidad de Sevilla * * The use 
+<!-- * pom.xml * * Copyright (C) 2019 Universidad de Sevilla * * The use 
 	of this project is hereby constrained to the conditions of the * TDG Licence, 
 	a copy of which you may download from * http://www.tdg-seville.info/License.html -->
 
@@ -11,8 +11,8 @@
 
 	<!-- Artifact identification and properties -->
 
-	<groupId>Design-and-Testing</groupId>
-	<artifactId>Acme-Shout</artifactId>
+	<groupId>Acme.com</groupId>
+	<artifactId>Acme-Madruga</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 
@@ -22,8 +22,9 @@
 
 	<!-- Indexing information -->
 
-	<name>Acme Shouts</name>
-	<url>http://www.Acme-Shout.com</url>
+	<name>Acme Madruga</name>
+	<url>http://www.acme.com</url>
+	<description>Acme Madrugá, Inc. Their business consists in helping brotherhoods across the world organise their processions.</description>
 
 	<!-- Build commands -->
 
@@ -231,7 +232,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.0.Final</version>
+			<version>4.3.6.Final</version>
 		</dependency>
 
 		<dependency>
@@ -315,5 +316,4 @@
 
 	</dependencies>
 
-	<description>This system allows people share their favourite Shouts.</description>
 </project> 
