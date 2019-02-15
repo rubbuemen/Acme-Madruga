@@ -1,12 +1,3 @@
-/*
- * UserAccount.java
- * 
- * Copyright (C) 2019 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the
- * TDG Licence, a copy of which you may download from
- * http://www.tdg-seville.info/License.html
- */
 
 package security;
 
@@ -20,6 +11,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -51,6 +43,8 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	private String					username;
 	private String					password;
 	private Collection<Authority>	authorities;
+
+	private Boolean					statusAccount;
 
 
 	@Size(min = 5, max = 32)
@@ -110,7 +104,7 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	@Transient
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return this.getStatusAccount();
 	}
 
 	@Transient
@@ -122,7 +116,15 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	@Transient
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return this.getStatusAccount();
 	}
 
+	@NotNull
+	public Boolean getStatusAccount() {
+		return this.statusAccount;
+	}
+
+	public void setStatusAccount(final Boolean statusAccount) {
+		this.statusAccount = statusAccount;
+	}
 }
