@@ -1,20 +1,28 @@
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import cz.jirutka.validator.collection.constraints.EachNotNull;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -25,13 +33,14 @@ public class Procession extends DomainEntity {
 	private String	title;
 	private String	description;
 	private Date	momentOrganize;
-	private Boolean	finalMode;
+	private Boolean	isFinalMode;
 
 
 	// Getters and Setters
 	@NotBlank
 	@Pattern(regexp = "^\\d{2}[0-1]\\d[0-3]\\d[-][A-Z]{5}$")
 	@Column(unique = true)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getTicker() {
 		return this.ticker;
 	}
@@ -41,6 +50,7 @@ public class Procession extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getTitle() {
 		return this.title;
 	}
@@ -50,6 +60,7 @@ public class Procession extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getDescription() {
 		return this.description;
 	}
@@ -71,12 +82,28 @@ public class Procession extends DomainEntity {
 	}
 
 	@NotNull
-	public Boolean getFinalMode() {
-		return this.finalMode;
+	public Boolean getIsFinalMode() {
+		return this.isFinalMode;
 	}
 
-	public void setFinalMode(final Boolean finalMode) {
-		this.finalMode = finalMode;
+	public void setIsFinalMode(final Boolean isFinalMode) {
+		this.isFinalMode = isFinalMode;
+	}
+
+
+	// Relationships
+	private Collection<PositionProcession>	positionsProcession;
+
+
+	@Valid
+	@EachNotNull
+	@OneToMany(cascade = CascadeType.ALL)
+	public Collection<PositionProcession> getPositionsProcession() {
+		return this.positionsProcession;
+	}
+
+	public void setPositionsProcession(final Collection<PositionProcession> positionsProcession) {
+		this.positionsProcession = positionsProcession;
 	}
 
 }

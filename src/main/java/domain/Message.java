@@ -8,15 +8,21 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import cz.jirutka.validator.collection.constraints.EachNotBlank;
+import cz.jirutka.validator.collection.constraints.EachNotNull;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -44,6 +50,7 @@ public class Message extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getSubject() {
 		return this.subject;
 	}
@@ -53,6 +60,7 @@ public class Message extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getBody() {
 		return this.body;
 	}
@@ -62,6 +70,7 @@ public class Message extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getPriority() {
 		return this.priority;
 	}
@@ -72,6 +81,7 @@ public class Message extends DomainEntity {
 
 	@ElementCollection
 	@EachNotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getTags() {
 		return this.tags;
 	}
@@ -87,6 +97,34 @@ public class Message extends DomainEntity {
 
 	public void setFlagSpam(final Boolean flagSpam) {
 		this.flagSpam = flagSpam;
+	}
+
+
+	// Relationships
+	private Actor				sender;
+	private Collection<Actor>	recipients;
+
+
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Actor getSender() {
+		return this.sender;
+	}
+
+	public void setSender(final Actor sender) {
+		this.sender = sender;
+	}
+
+	@Valid
+	@EachNotNull
+	@ManyToMany
+	public Collection<Actor> getRecipients() {
+		return this.recipients;
+	}
+
+	public void setRecipients(final Collection<Actor> recipients) {
+		this.recipients = recipients;
 	}
 
 }

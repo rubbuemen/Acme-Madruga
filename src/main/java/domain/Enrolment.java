@@ -6,8 +6,10 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -44,6 +46,45 @@ public class Enrolment extends DomainEntity {
 
 	public void setMomentDropOut(final Date momentDropOut) {
 		this.momentDropOut = momentDropOut;
+	}
+
+
+	// Relationships
+	private PositionBrotherhood	positionBrotherhood;
+	private Brotherhood			brotherhood;
+	private Member				member;
+
+
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public PositionBrotherhood getPositionBrotherhood() {
+		return this.positionBrotherhood;
+	}
+
+	public void setPositionBrotherhood(final PositionBrotherhood positionBrotherhood) {
+		this.positionBrotherhood = positionBrotherhood;
+	}
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Brotherhood getBrotherhood() {
+		return this.brotherhood;
+	}
+
+	public void setBrotherhood(final Brotherhood brotherhood) {
+		this.brotherhood = brotherhood;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Member getMember() {
+		return this.member;
+	}
+
+	public void setMember(final Member member) {
+		this.member = member;
 	}
 
 }

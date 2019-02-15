@@ -14,6 +14,8 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.hibernate.validator.constraints.URL;
 
 import cz.jirutka.validator.collection.constraints.EachNotBlank;
@@ -38,6 +40,7 @@ public class SystemConfiguration extends DomainEntity {
 
 	// Getters and Setters
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getNameSystem() {
 		return this.nameSystem;
 	}
@@ -48,6 +51,7 @@ public class SystemConfiguration extends DomainEntity {
 
 	@NotBlank
 	@URL
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getBannerUrl() {
 		return this.bannerUrl;
 	}
@@ -57,6 +61,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getWelcomeMessageEnglish() {
 		return this.welcomeMessageEnglish;
 	}
@@ -66,6 +71,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getWelcomeMessageSpanish() {
 		return this.welcomeMessageSpanish;
 	}
@@ -76,6 +82,7 @@ public class SystemConfiguration extends DomainEntity {
 
 	@NotBlank
 	@Pattern(regexp = "^[+][1-9]\\d{0,2}$")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getPhoneCountryCode() {
 		return this.phoneCountryCode;
 	}
@@ -107,6 +114,7 @@ public class SystemConfiguration extends DomainEntity {
 	@ElementCollection
 	@NotEmpty
 	@EachNotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getPrioritiesMessagesList() {
 		return this.prioritiesMessagesList;
 	}
@@ -118,6 +126,7 @@ public class SystemConfiguration extends DomainEntity {
 	@ElementCollection
 	@NotEmpty
 	@EachNotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getPositiveWords() {
 		return this.positiveWords;
 	}
@@ -129,6 +138,7 @@ public class SystemConfiguration extends DomainEntity {
 	@ElementCollection
 	@NotEmpty
 	@EachNotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getNegativeWords() {
 		return this.negativeWords;
 	}
@@ -140,6 +150,7 @@ public class SystemConfiguration extends DomainEntity {
 	@ElementCollection
 	@NotEmpty
 	@EachNotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getSpamWords() {
 		return this.spamWords;
 	}

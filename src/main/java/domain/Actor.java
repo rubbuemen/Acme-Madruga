@@ -1,15 +1,27 @@
 
 package domain;
 
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.hibernate.validator.constraints.URL;
+
+import security.UserAccount;
+import cz.jirutka.validator.collection.constraints.EachNotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -28,6 +40,7 @@ public abstract class Actor extends DomainEntity {
 
 	// Getters and Setters
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getName() {
 		return this.name;
 	}
@@ -36,6 +49,7 @@ public abstract class Actor extends DomainEntity {
 		this.name = name;
 	}
 
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getMiddleName() {
 		return this.middleName;
 	}
@@ -45,6 +59,7 @@ public abstract class Actor extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getSurname() {
 		return this.surname;
 	}
@@ -54,6 +69,7 @@ public abstract class Actor extends DomainEntity {
 	}
 
 	@URL
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getPhoto() {
 		return this.photo;
 	}
@@ -63,6 +79,7 @@ public abstract class Actor extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^[a-zA-Z0-9 ]*[<]?\\w+[@][a-zA-Z0-9.]+[>]?$")
 	public String getEmail() {
 		return this.email;
@@ -72,6 +89,7 @@ public abstract class Actor extends DomainEntity {
 		this.email = email;
 	}
 
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
@@ -80,6 +98,7 @@ public abstract class Actor extends DomainEntity {
 		this.phoneNumber = phoneNumber;
 	}
 
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getAddress() {
 		return this.address;
 	}
@@ -88,6 +107,32 @@ public abstract class Actor extends DomainEntity {
 		this.address = address;
 	}
 
+
 	// Relationships
+	private UserAccount		userAccount;
+	private Collection<Box>	boxes;
+
+
+	@NotNull
+	@Valid
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	public UserAccount getUserAccount() {
+		return this.userAccount;
+	}
+
+	public void setUserAccount(final UserAccount userAccount) {
+		this.userAccount = userAccount;
+	}
+
+	@EachNotNull
+	@Valid
+	@OneToMany
+	public Collection<Box> getBoxes() {
+		return this.boxes;
+	}
+
+	public void setBoxes(final Collection<Box> boxes) {
+		this.boxes = boxes;
+	}
 
 }

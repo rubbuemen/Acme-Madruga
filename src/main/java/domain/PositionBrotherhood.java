@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -20,6 +22,7 @@ public class PositionBrotherhood extends DomainEntity {
 	// Getters and Setters
 	@NotBlank
 	@Column(unique = true)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getNameEnglish() {
 		return this.nameEnglish;
 	}
@@ -30,6 +33,7 @@ public class PositionBrotherhood extends DomainEntity {
 
 	@NotBlank
 	@Column(unique = true)
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getNameSpanish() {
 		return this.nameSpanish;
 	}
