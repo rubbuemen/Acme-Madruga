@@ -36,6 +36,7 @@ public abstract class Actor extends DomainEntity {
 	private String	email;
 	private String	phoneNumber;
 	private String	address;
+	private Boolean	isSpammer;
 
 
 	// Getters and Setters
@@ -79,7 +80,6 @@ public abstract class Actor extends DomainEntity {
 	}
 
 	@NotBlank
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^[a-zA-Z0-9 ]*[<]?\\w+[@][a-zA-Z0-9.]+[>]?$")
 	public String getEmail() {
 		return this.email;
@@ -107,6 +107,15 @@ public abstract class Actor extends DomainEntity {
 		this.address = address;
 	}
 
+	@NotNull
+	public Boolean getIsSpammer() {
+		return this.isSpammer;
+	}
+
+	public void setIsSpammer(final Boolean isSpammer) {
+		this.isSpammer = isSpammer;
+	}
+
 
 	// Relationships
 	private UserAccount		userAccount;
@@ -124,8 +133,8 @@ public abstract class Actor extends DomainEntity {
 		this.userAccount = userAccount;
 	}
 
-	@EachNotNull
 	@Valid
+	@EachNotNull
 	@OneToMany
 	public Collection<Box> getBoxes() {
 		return this.boxes;

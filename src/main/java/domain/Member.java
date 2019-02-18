@@ -19,12 +19,12 @@ public class Member extends Actor {
 
 	// Relationships
 	private Collection<Enrolment>		enrolments;
-	private Collection<RequestMarch>	requetsMarch;
+	private Collection<RequestMarch>	requestsMarch;
 	private Finder						finder;
 
 
-	@EachNotNull
 	@Valid
+	@EachNotNull
 	@OneToMany(mappedBy = "member")
 	public Collection<Enrolment> getEnrolments() {
 		return this.enrolments;
@@ -34,15 +34,15 @@ public class Member extends Actor {
 		this.enrolments = enrolments;
 	}
 
-	@EachNotNull
 	@Valid
+	@EachNotNull
 	@OneToMany
-	public Collection<RequestMarch> getRequetsMarch() {
-		return this.requetsMarch;
+	public Collection<RequestMarch> getRequestsMarch() {
+		return this.requestsMarch;
 	}
 
-	public void setRequetsMarch(final Collection<RequestMarch> requetsMarch) {
-		this.requetsMarch = requetsMarch;
+	public void setRequestsMarch(final Collection<RequestMarch> requestsMarch) {
+		this.requestsMarch = requestsMarch;
 	}
 
 	@NotNull

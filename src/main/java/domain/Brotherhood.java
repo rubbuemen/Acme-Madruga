@@ -8,6 +8,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -66,13 +67,14 @@ public class Brotherhood extends Actor {
 
 
 	// Relationships
-	private Collection<FloatEntity>		floats;
+	private Collection<FloatEntity>	floats;
 	private Collection<Procession>	processions;
 	private Collection<Enrolment>	enrolments;
+	private Area					area;
 
 
-	@EachNotNull
 	@Valid
+	@EachNotNull
 	@OneToMany
 	public Collection<FloatEntity> getFloats() {
 		return this.floats;
@@ -82,8 +84,8 @@ public class Brotherhood extends Actor {
 		this.floats = floats;
 	}
 
-	@EachNotNull
 	@Valid
+	@EachNotNull
 	@OneToMany
 	public Collection<Procession> getProcessions() {
 		return this.processions;
@@ -93,8 +95,8 @@ public class Brotherhood extends Actor {
 		this.processions = processions;
 	}
 
-	@EachNotNull
 	@Valid
+	@EachNotNull
 	@OneToMany(mappedBy = "brotherhood")
 	public Collection<Enrolment> getEnrolments() {
 		return this.enrolments;
@@ -102,6 +104,16 @@ public class Brotherhood extends Actor {
 
 	public void setEnrolments(final Collection<Enrolment> enrolments) {
 		this.enrolments = enrolments;
+	}
+
+	@Valid
+	@OneToOne(optional = true)
+	public Area getArea() {
+		return this.area;
+	}
+
+	public void setArea(final Area area) {
+		this.area = area;
 	}
 
 }

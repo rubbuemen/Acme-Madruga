@@ -93,6 +93,7 @@ public class Procession extends DomainEntity {
 
 	// Relationships
 	private Collection<PositionProcession>	positionsProcession;
+	private Collection<RequestMarch>		requestsMarch;
 
 
 	@Valid
@@ -104,6 +105,17 @@ public class Procession extends DomainEntity {
 
 	public void setPositionsProcession(final Collection<PositionProcession> positionsProcession) {
 		this.positionsProcession = positionsProcession;
+	}
+
+	@Valid
+	@EachNotNull
+	@OneToMany
+	public Collection<RequestMarch> getRequestsMarch() {
+		return this.requestsMarch;
+	}
+
+	public void setRequestsMarch(final Collection<RequestMarch> requestsMarch) {
+		this.requestsMarch = requestsMarch;
 	}
 
 }

@@ -81,7 +81,6 @@ public class Message extends DomainEntity {
 
 	@ElementCollection
 	@EachNotBlank
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getTags() {
 		return this.tags;
 	}

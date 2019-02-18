@@ -49,7 +49,6 @@ public class FloatEntity extends DomainEntity {
 	@ElementCollection
 	@EachNotBlank
 	@EachURL
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getPictures() {
 		return this.pictures;
 	}

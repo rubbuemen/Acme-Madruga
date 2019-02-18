@@ -114,7 +114,6 @@ public class SystemConfiguration extends DomainEntity {
 	@ElementCollection
 	@NotEmpty
 	@EachNotBlank
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getPrioritiesMessagesList() {
 		return this.prioritiesMessagesList;
 	}
@@ -126,7 +125,6 @@ public class SystemConfiguration extends DomainEntity {
 	@ElementCollection
 	@NotEmpty
 	@EachNotBlank
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getPositiveWords() {
 		return this.positiveWords;
 	}
@@ -138,7 +136,6 @@ public class SystemConfiguration extends DomainEntity {
 	@ElementCollection
 	@NotEmpty
 	@EachNotBlank
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getNegativeWords() {
 		return this.negativeWords;
 	}
@@ -150,7 +147,6 @@ public class SystemConfiguration extends DomainEntity {
 	@ElementCollection
 	@NotEmpty
 	@EachNotBlank
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public Collection<String> getSpamWords() {
 		return this.spamWords;
 	}
