@@ -9,7 +9,7 @@ public class MemberForm {
 
 	// Attributes
 	@Valid
-	private Member	member;
+	private Member	actor;
 	private String	passwordCheck;
 	private Boolean	termsConditions;
 
@@ -19,19 +19,19 @@ public class MemberForm {
 		super();
 	}
 
-	public MemberForm(final Member member) {
-		this.member = member;
+	public MemberForm(final Member actor) {
+		this.actor = actor;
 		this.passwordCheck = "";
 		this.termsConditions = false;
 	}
 
 	// Getters and Setters
-	public Member getMember() {
-		return this.member;
+	public Member getActor() {
+		return this.actor;
 	}
 
-	public void setMember(final Member member) {
-		this.member = member;
+	public void setActor(final Member actor) {
+		this.actor = actor;
 	}
 
 	public String getPasswordCheck() {

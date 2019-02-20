@@ -109,42 +109,42 @@ public class BrotherhoodService {
 
 
 	public BrotherhoodForm reconstruct(final BrotherhoodForm brotherhoodForm, final BindingResult binding) {
-
 		BrotherhoodForm result;
-		final Brotherhood brotherhoodF = brotherhoodForm.getBrotherhood();
+		final Brotherhood brotherhood = brotherhoodForm.getActor();
 
-		if (brotherhoodF.getId() == 0) {
-			UserAccount userAccount;
-
+		if (brotherhood.getId() == 0) {
 			final Collection<Float> floats = new HashSet<>();
 			final Collection<Procession> processions = new HashSet<>();
 			final Collection<Enrolment> enrolments = new HashSet<>();
 			final Collection<Box> boxes = new HashSet<>();
-			userAccount = brotherhoodF.getUserAccount();
+			final UserAccount userAccount = this.userAccountService.create();
 			final Authority auth = new Authority();
 			auth.setAuthority(Authority.BROTHERHOOD);
 			userAccount.addAuthority(auth);
-
-			brotherhoodF.setUserAccount(userAccount);
-			brotherhoodF.setIsSpammer(false);
-			brotherhoodF.setFloats(floats);
-			brotherhoodF.setProcessions(processions);
-			brotherhoodF.setEnrolments(enrolments);
-			brotherhoodF.setBoxes(boxes);
-
+			userAccount.setUsername(brotherhoodForm.getActor().getUserAccount().getUsername());
+			userAccount.setPassword(brotherhoodForm.getActor().getUserAccount().getPassword());
+			brotherhood.setFloats(floats);
+			brotherhood.setProcessions(processions);
+			brotherhood.setEnrolments(enrolments);
+			brotherhood.setBoxes(boxes);
+			brotherhood.setUserAccount(userAccount);
+			brotherhood.setIsSpammer(false);
+			brotherhoodForm.setActor(brotherhood);
 		} else {
-			final Brotherhood brotherhood = this.brotherhoodRepository.findOne(brotherhoodF.getId());
-			brotherhoodF.setId(brotherhood.getId());
-			brotherhoodF.setVersion(brotherhood.getVersion());
-			brotherhoodF.setUserAccount(brotherhood.getUserAccount());
-			brotherhoodF.setIsSpammer(brotherhood.getIsSpammer());
-			brotherhoodF.setFloats(brotherhood.getFloats());
-			brotherhoodF.setProcessions(brotherhood.getProcessions());
-			brotherhoodF.setEnrolments(brotherhood.getEnrolments());
-			brotherhoodF.setBoxes(brotherhood.getBoxes());
+			final Brotherhood res = this.brotherhoodRepository.findOne(brotherhood.getId());
+			res.setName(brotherhood.getName());
+			res.setMiddleName(brotherhood.getMiddleName());
+			res.setSurname(brotherhood.getSurname());
+			res.setPhoto(brotherhood.getPhoto());
+			res.setEmail(brotherhood.getEmail());
+			res.setPhoneNumber(brotherhood.getPhoneNumber());
+			res.setAddress(brotherhood.getAddress());
+			res.setTitle(brotherhood.getTitle());
+			res.setEstablishmentDate(brotherhood.getEstablishmentDate());
+			res.setComments(brotherhood.getComments());
+			brotherhoodForm.setActor(res);
 		}
 
-		brotherhoodForm.setBrotherhood(brotherhoodF);
 		result = brotherhoodForm;
 
 		this.validator.validate(result, binding);

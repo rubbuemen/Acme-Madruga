@@ -9,7 +9,7 @@ public class BrotherhoodForm {
 
 	// Attributes
 	@Valid
-	private Brotherhood	brotherhood;
+	private Brotherhood	actor;
 	private String		passwordCheck;
 	private Boolean		termsConditions;
 
@@ -19,19 +19,19 @@ public class BrotherhoodForm {
 		super();
 	}
 
-	public BrotherhoodForm(final Brotherhood brotherhood) {
-		this.brotherhood = brotherhood;
+	public BrotherhoodForm(final Brotherhood actor) {
+		this.actor = actor;
 		this.passwordCheck = "";
 		this.termsConditions = false;
 	}
 
 	// Getters and Setters
-	public Brotherhood getBrotherhood() {
-		return this.brotherhood;
+	public Brotherhood getActor() {
+		return this.actor;
 	}
 
-	public void setBrotherhood(final Brotherhood brotherhood) {
-		this.brotherhood = brotherhood;
+	public void setActor(final Brotherhood actor) {
+		this.actor = actor;
 	}
 
 	public String getPasswordCheck() {

@@ -9,7 +9,7 @@ public class AdministratorForm {
 
 	// Attributes
 	@Valid
-	private Administrator	administrator;
+	private Administrator	actor;
 	private String			passwordCheck;
 	private Boolean			termsConditions;
 
@@ -19,19 +19,19 @@ public class AdministratorForm {
 		super();
 	}
 
-	public AdministratorForm(final Administrator administrator) {
-		this.administrator = administrator;
+	public AdministratorForm(final Administrator actor) {
+		this.actor = actor;
 		this.passwordCheck = "";
 		this.termsConditions = false;
 	}
 
 	// Getters and Setters
-	public Administrator getAdministrator() {
-		return this.administrator;
+	public Administrator getActor() {
+		return this.actor;
 	}
 
-	public void setAdministrator(final Administrator administrator) {
-		this.administrator = administrator;
+	public void setActor(final Administrator actor) {
+		this.actor = actor;
 	}
 
 	public String getPasswordCheck() {
@@ -49,4 +49,5 @@ public class AdministratorForm {
 	public void setTermsConditions(final Boolean termsConditions) {
 		this.termsConditions = termsConditions;
 	}
+
 }

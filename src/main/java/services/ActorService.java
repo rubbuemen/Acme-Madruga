@@ -83,10 +83,10 @@ public class ActorService {
 			spamBox.setName("Spam Box");
 			spamBox.setIsSystemBox(true);
 			spamBox = this.boxService.saveForSystemBox(spamBox);
-			final Box notificationBox = this.boxService.createForSystemBox();
-			spamBox.setName("Notification Box");
-			spamBox.setIsSystemBox(true);
-			spamBox = this.boxService.saveForSystemBox(spamBox);
+			Box notificationBox = this.boxService.createForSystemBox();
+			notificationBox.setName("Notification Box");
+			notificationBox.setIsSystemBox(true);
+			notificationBox = this.boxService.saveForSystemBox(notificationBox);
 			final Collection<Box> systemBoxes = new HashSet<>();
 			Collections.addAll(systemBoxes, inBox, outBox, trashBox, spamBox, notificationBox);
 			actor.setUserAccount(userAccount);
@@ -100,7 +100,7 @@ public class ActorService {
 		if (actor.getPhoneNumber() != null) {
 			String phoneNumber = actor.getPhoneNumber();
 			final String phoneCountryCode = this.systemConfigurationService.getConfiguration().getPhoneCountryCode();
-			if (!actor.getPhoneNumber().startsWith("+"))
+			if (!actor.getPhoneNumber().isEmpty() && !actor.getPhoneNumber().startsWith("+"))
 				phoneNumber = phoneCountryCode + " " + phoneNumber;
 			actor.setPhoneNumber(phoneNumber);
 		}
@@ -109,7 +109,6 @@ public class ActorService {
 
 		return result;
 	}
-
 	public void delete(final Actor actor) {
 		Assert.notNull(actor);
 		Assert.isTrue(actor.getId() != 0);
