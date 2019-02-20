@@ -508,8 +508,8 @@
 		</property>
 		<property name="floats">
 			<list>
-				<ref bean="floatEntity1" />
-				<ref bean="floatEntity2" />
+				<ref bean="float1" />
+				<ref bean="float2" />
 			</list>
 		</property>
 		<property name="processions">
@@ -551,8 +551,7 @@
 		</property>
 		<property name="floats">
 			<list>
-				<ref bean="floatEntity3" />
-				<ref bean="floatEntity4" />
+				<ref bean="float3" />
 			</list>
 		</property>
 		<property name="processions">
@@ -588,6 +587,11 @@
 				<ref bean="box27" />
 				<ref bean="box28" />
 				<ref bean="box29" />
+			</list>
+		</property>
+		<property name="floats">
+			<list>
+				<ref bean="float4" />
 			</list>
 		</property>
 		<property name="processions">
@@ -655,6 +659,10 @@
 		<property name="member" ref="member4" />
 		<property name="positionBrotherhood" ref="positionBrotherhood2" />
 	</bean>
+	<bean id="enrolment9" class="domain.Enrolment">
+		<property name="brotherhood" ref="brotherhood2" />
+		<property name="member" ref="member5" />
+	</bean>
 
 
 	<!-- Finder -->
@@ -706,8 +714,8 @@
 	</bean>
 
 
-	<!-- FloatEntity -->
-	<bean id="floatEntity1" class="domain.FloatEntity">
+	<!-- Float -->
+	<bean id="float1" class="domain.Float">
 		<property name="title" value="Cristo en la cruz" />
 		<property name="description" value="This is a test description." />
 		<property name="pictures">
@@ -715,8 +723,14 @@
 				<value>http://oi64.tinypic.com/wmf7dl.jpg</value>
 			</list>
 		</property>
+		<property name="processions">
+			<list>
+				<ref bean="procession1" />
+				<ref bean="procession2" />
+			</list>
+		</property>
 	</bean>
-	<bean id="floatEntity2" class="domain.FloatEntity">
+	<bean id="float2" class="domain.Float">
 		<property name="title" value="Virgen llorando" />
 		<property name="description" value="This is a test description." />
 		<property name="pictures">
@@ -724,8 +738,13 @@
 				<value>http://oi66.tinypic.com/zti5y0.jpg</value>
 			</list>
 		</property>
+		<property name="processions">
+			<list>
+				<ref bean="procession1" />
+			</list>
+		</property>
 	</bean>
-	<bean id="floatEntity3" class="domain.FloatEntity">
+	<bean id="float3" class="domain.Float">
 		<property name="title" value="Cristo en penitencia" />
 		<property name="description" value="This is a test description." />
 		<property name="pictures">
@@ -733,8 +752,13 @@
 				<value>http://oi67.tinypic.com/2hre2xi.jpg</value>
 			</list>
 		</property>
+		<property name="processions">
+			<list>
+				<ref bean="procession3" />
+			</list>
+		</property>
 	</bean>
-	<bean id="floatEntity4" class="domain.FloatEntity">
+	<bean id="float4" class="domain.Float">
 		<property name="title" value="Virgen pidiendo" />
 		<property name="description" value="This is a test description." />
 		<property name="pictures">
@@ -742,6 +766,15 @@
 				<value>http://oi68.tinypic.com/124vbqt.jpg</value>
 			</list>
 		</property>
+		<property name="processions">
+			<list>
+				<ref bean="procession4" />
+			</list>
+		</property>
+	</bean>
+	<bean id="float5" class="domain.Float">
+		<property name="title" value="Virgen sufriendo por cristo" />
+		<property name="description" value="This is a test description." />
 	</bean>
 
 
@@ -894,6 +927,11 @@
 			</list>
 		</property>
 		<property name="finder" ref="finder5" />
+		<property name="enrolments">
+			<list>
+				<ref bean="enrolment9" />
+			</list>
+		</property>
 	</bean>
 
 
@@ -1028,11 +1066,6 @@
 				<ref bean="requestMarch16" />
 			</list>
 		</property>
-		<property name="positionsProcession">
-			<list>
-				<ref bean="positionProcession1" />
-			</list>
-		</property>
 	</bean>
 	<bean id="procession2" class="domain.Procession">
 		<property name="ticker" value="190710-SOTJE" />
@@ -1048,13 +1081,6 @@
 				<ref bean="requestMarch8" />
 			</list>
 		</property>
-		<property name="positionsProcession">
-			<list>
-				<ref bean="positionProcession2" />
-				<ref bean="positionProcession3" />
-				<ref bean="positionProcession4" />
-			</list>
-		</property>
 	</bean>
 	<bean id="procession3" class="domain.Procession">
 		<property name="ticker" value="191003-GPLGW" />
@@ -1067,13 +1093,6 @@
 				<ref bean="requestMarch3" />
 				<ref bean="requestMarch7" />
 				<ref bean="requestMarch11" />
-			</list>
-		</property>
-		<property name="positionsProcession">
-			<list>
-				<ref bean="positionProcession5" />
-				<ref bean="positionProcession6" />
-				<ref bean="positionProcession7" />
 			</list>
 		</property>
 	</bean>
@@ -1091,10 +1110,12 @@
 		<property name="status" value="PENDING" />
 	</bean>
 	<bean id="requestMarch2" class="domain.RequestMarch">
-		<property name="status" value="PENDING" />
+		<property name="status" value="APPROVED" />
+		<property name="positionProcession" ref="positionProcession2" />
 	</bean>
 	<bean id="requestMarch3" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
+		<property name="positionProcession" ref="positionProcession5" />
 	</bean>
 	<bean id="requestMarch4" class="domain.RequestMarch">
 		<property name="status" value="REJECTED" />
@@ -1105,9 +1126,11 @@
 	</bean>
 	<bean id="requestMarch6" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
+		<property name="positionProcession" ref="positionProcession3" />
 	</bean>
 	<bean id="requestMarch7" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
+		<property name="positionProcession" ref="positionProcession6" />
 	</bean>
 	<bean id="requestMarch8" class="domain.RequestMarch">
 		<property name="status" value="REJECTED" />
@@ -1118,12 +1141,15 @@
 	</bean>
 	<bean id="requestMarch10" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
+		<property name="positionProcession" ref="positionProcession4" />
 	</bean>
 	<bean id="requestMarch11" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
+		<property name="positionProcession" ref="positionProcession7" />
 	</bean>
 	<bean id="requestMarch12" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
+		<property name="positionProcession" ref="positionProcession1" />
 	</bean>
 	<bean id="requestMarch13" class="domain.RequestMarch">
 		<property name="status" value="PENDING" />

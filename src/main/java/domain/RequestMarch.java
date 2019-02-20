@@ -4,6 +4,8 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -39,4 +41,20 @@ public class RequestMarch extends DomainEntity {
 	public void setRejectReason(final String rejectReason) {
 		this.rejectReason = rejectReason;
 	}
+
+
+	// Relationships
+	private PositionProcession	positionProcession;
+
+
+	@Valid
+	@OneToOne(optional = true)
+	public PositionProcession getPositionProcession() {
+		return this.positionProcession;
+	}
+
+	public void setPositionProcession(final PositionProcession positionProcession) {
+		this.positionProcession = positionProcession;
+	}
+
 }

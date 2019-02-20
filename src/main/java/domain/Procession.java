@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -92,20 +91,8 @@ public class Procession extends DomainEntity {
 
 
 	// Relationships
-	private Collection<PositionProcession>	positionsProcession;
-	private Collection<RequestMarch>		requestsMarch;
+	private Collection<RequestMarch>	requestsMarch;
 
-
-	@Valid
-	@EachNotNull
-	@OneToMany(cascade = CascadeType.ALL)
-	public Collection<PositionProcession> getPositionsProcession() {
-		return this.positionsProcession;
-	}
-
-	public void setPositionsProcession(final Collection<PositionProcession> positionsProcession) {
-		this.positionsProcession = positionsProcession;
-	}
 
 	@Valid
 	@EachNotNull

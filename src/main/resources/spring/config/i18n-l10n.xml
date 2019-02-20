@@ -23,9 +23,22 @@
 		<value>/views/security/messages</value>		
 		<value>/views/welcome/messages</value>
 		
-		<value>/views/administrator/messages</value>
-		<value>/views/customer/messages</value>
-		<value>/views/profile/messages</value>
+		<value>/views/actor/messages</value>
+		<value>/views/area/messages</value>
+		<value>/views/box/messages</value>
+		<value>/views/brotherhood/messages</value>
+		<value>/views/enrolment/messages</value>
+		<value>/views/finder/messages</value>
+		<value>/views/float/messages</value>
+		<value>/views/member/messages</value>
+		<value>/views/message/messages</value>
+		<value>/views/positionBrotherhood/messages</value>
+		<value>/views/positionProcession/messages</value>
+		<value>/views/procession/messages</value>
+		<value>/views/requestMarch/messages</value>
+		<value>/views/socialProfile/messages</value>
+		<value>/views/systemConfiguration/messages</value>
+		<value>/views/dashboard/messages</value>
 	</util:list>
 
 </beans>

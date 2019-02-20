@@ -25,7 +25,6 @@ public class Enrolment extends DomainEntity {
 
 
 	// Getters and Setters
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	@Past
@@ -55,9 +54,8 @@ public class Enrolment extends DomainEntity {
 	private Member				member;
 
 
-	@NotNull
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	public PositionBrotherhood getPositionBrotherhood() {
 		return this.positionBrotherhood;
 	}
