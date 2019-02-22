@@ -7,16 +7,13 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
 import cz.jirutka.validator.collection.constraints.EachNotBlank;
-import cz.jirutka.validator.collection.constraints.EachNotNull;
 import cz.jirutka.validator.collection.constraints.EachURL;
 
 @Entity
@@ -60,22 +57,6 @@ public class Float extends DomainEntity {
 
 	public void setPictures(final Collection<String> pictures) {
 		this.pictures = pictures;
-	}
-
-
-	// Relationships
-	private Collection<Procession>	processions;
-
-
-	@Valid
-	@EachNotNull
-	@ManyToMany
-	public Collection<Procession> getProcessions() {
-		return this.processions;
-	}
-
-	public void setProcessions(final Collection<Procession> processions) {
-		this.processions = processions;
 	}
 
 }

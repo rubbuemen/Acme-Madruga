@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.FloatRepository;
+import domain.Actor;
+import domain.Brotherhood;
 import domain.Float;
 
 @Service
@@ -17,10 +19,15 @@ public class FloatService {
 
 	// Managed repository
 	@Autowired
-	private FloatRepository	floatRepository;
-
+	private FloatRepository		floatRepository;
 
 	// Supporting services
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private BrotherhoodService	brotherhoodService;
+
 
 	// Simple CRUD methods
 	public Float create() {
@@ -51,12 +58,17 @@ public class FloatService {
 		return result;
 	}
 
-	public Float save(final Float floatE) {
+	public Float save(final Float floatE, final Brotherhood brotherhood) {
 		Assert.notNull(floatE);
 
 		Float result;
 
 		result = this.floatRepository.save(floatE);
+
+		final Collection<Float> floatsBrotherhoodLogged = brotherhood.getFloats();
+		floatsBrotherhoodLogged.add(result);
+		brotherhood.setFloats(floatsBrotherhoodLogged);
+		this.brotherhoodService.save(brotherhood);
 
 		return result;
 	}
@@ -70,6 +82,33 @@ public class FloatService {
 	}
 
 	// Other business methods
+	// R8.2
+	public Collection<Float> findFloatsByBrotherhoodId(final int brotherhoodId) {
+		Assert.isTrue(brotherhoodId != 0);
+
+		Collection<Float> result;
+
+		result = this.floatRepository.findFloatsByBrotherhoodId(brotherhoodId);
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	// R10.1
+	public Collection<Float> findFloatsByBrotherhoodLogged() {
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginBrotherhood(actorLogged);
+
+		Collection<Float> result;
+
+		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
+
+		result = brotherhoodLogged.getFloats();
+		Assert.notNull(result);
+
+		return result;
+	}
 
 	// Reconstruct methods
 

@@ -21,24 +21,34 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.Authority;
 import services.ActorService;
+import services.AdministratorService;
 import services.BrotherhoodService;
+import services.MemberService;
 import services.UserAccountService;
 import domain.Actor;
 import domain.Brotherhood;
+import domain.Member;
 import forms.BrotherhoodForm;
+import forms.MemberForm;
 
 @Controller
 @RequestMapping("/actor")
 public class ActorController extends AbstractController {
 
 	@Autowired
-	ActorService		actorService;
+	ActorService			actorService;
 
 	@Autowired
-	BrotherhoodService	brotherhoodService;
+	BrotherhoodService		brotherhoodService;
 
 	@Autowired
-	UserAccountService	userAccountService;
+	MemberService			memberService;
+
+	@Autowired
+	AdministratorService	administratorService;
+
+	@Autowired
+	UserAccountService		userAccountService;
 
 
 	@RequestMapping(value = "/register-brotherhood", method = RequestMethod.GET)
@@ -59,6 +69,23 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/register-member", method = RequestMethod.GET)
+	public ModelAndView registerMember() {
+		ModelAndView result;
+		Member actor;
+
+		actor = this.memberService.create();
+
+		final MemberForm actorForm = new MemberForm(actor);
+
+		result = new ModelAndView("actor/register");
+
+		result.addObject("actionURL", "actor/register-member.do");
+		result.addObject("actorForm", actorForm);
+
+		return result;
+	}
+
 	@RequestMapping(value = "/register-brotherhood", method = RequestMethod.POST, params = "save")
 	public ModelAndView registerBrotherhood(@ModelAttribute("actorForm") BrotherhoodForm actorForm, final BindingResult binding) {
 		ModelAndView result;
@@ -72,6 +99,34 @@ public class ActorController extends AbstractController {
 				Assert.isTrue(actorForm.getActor().getUserAccount().getPassword().equals(actorForm.getPasswordCheck()), "Password does not match");
 				Assert.isTrue(actorForm.getTermsConditions(), "The terms and conditions must be accepted");
 				this.brotherhoodService.save(actorForm.getActor());
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				if (oops.getMessage().equals("Password does not match"))
+					result = this.createEditModelAndView(actorForm.getActor(), "actor.password.match");
+				else if (oops.getMessage().equals("The terms and conditions must be accepted"))
+					result = this.createEditModelAndView(actorForm.getActor(), "actor.conditions.accept");
+				else if (oops.getMessage().equals("could not execute statement; SQL [n/a]; constraint [null]" + "; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement"))
+					result = this.createEditModelAndView(actorForm.getActor(), "actor.error.duplicate.user");
+				else
+					result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
+			}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/register-member", method = RequestMethod.POST, params = "save")
+	public ModelAndView registerMember(@ModelAttribute("actorForm") MemberForm actorForm, final BindingResult binding) {
+		ModelAndView result;
+
+		actorForm = this.memberService.reconstruct(actorForm, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(actorForm.getActor());
+		else
+			try {
+				Assert.isTrue(actorForm.getActor().getUserAccount().getPassword().equals(actorForm.getPasswordCheck()), "Password does not match");
+				Assert.isTrue(actorForm.getTermsConditions(), "The terms and conditions must be accepted");
+				this.memberService.save(actorForm.getActor());
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().equals("Password does not match"))

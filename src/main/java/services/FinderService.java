@@ -2,6 +2,8 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.util.Assert;
 
 import repositories.FinderRepository;
 import domain.Finder;
+import domain.Procession;
 
 @Service
 @Transactional
@@ -27,6 +30,10 @@ public class FinderService {
 		Finder result;
 
 		result = new Finder();
+
+		final Collection<Procession> processions = new HashSet<>();
+
+		result.setProcessions(processions);
 
 		return result;
 	}
@@ -55,6 +62,11 @@ public class FinderService {
 		Assert.notNull(finder);
 
 		Finder result;
+
+		if (finder.getId() != 0) {
+			final Date searchMoment = new Date(System.currentTimeMillis() - 1);
+			finder.setSearchMoment(searchMoment);
+		}
 
 		result = this.finderRepository.save(finder);
 

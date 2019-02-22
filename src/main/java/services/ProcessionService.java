@@ -70,6 +70,17 @@ public class ProcessionService {
 	}
 
 	// Other business methods
+	// R8.2
+	public Collection<Procession> findProcessionsByBrotherhoodId(final int brotherhoodId) {
+		Assert.isTrue(brotherhoodId != 0);
+
+		Collection<Procession> result;
+
+		result = this.processionRepository.findProcessionsByBrotherhoodId(brotherhoodId);
+		Assert.notNull(result);
+
+		return result;
+	}
 
 	// Reconstruct methods
 

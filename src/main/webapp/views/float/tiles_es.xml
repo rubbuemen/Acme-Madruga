@@ -16,7 +16,7 @@
 	</definition>
 
 	<definition name="float/list" extends="master.page">
-		<put-attribute name="title" value="¡Bienvenidos!" />
+		<put-attribute name="title" value="Lista de pasos" />
 		<put-attribute name="body" value="/views/float/list.jsp" />
 	</definition>
 

@@ -8,6 +8,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,7 +33,7 @@ public class Procession extends DomainEntity {
 	private String	ticker;
 	private String	title;
 	private String	description;
-	private Date	momentOrganize;
+	private Date	momentOrganise;
 	private Boolean	isFinalMode;
 
 
@@ -72,12 +74,12 @@ public class Procession extends DomainEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	@Future
-	public Date getMomentOrganize() {
-		return this.momentOrganize;
+	public Date getMomentOrganise() {
+		return this.momentOrganise;
 	}
 
-	public void setMomentOrganize(final Date momentOrganize) {
-		this.momentOrganize = momentOrganize;
+	public void setMomentOrganise(final Date momentOrganise) {
+		this.momentOrganise = momentOrganise;
 	}
 
 	@NotNull
@@ -91,8 +93,21 @@ public class Procession extends DomainEntity {
 
 
 	// Relationships
+	private Collection<Float>			floats;
 	private Collection<RequestMarch>	requestsMarch;
 
+
+	@NotEmpty
+	@Valid
+	@EachNotNull
+	@ManyToMany
+	public Collection<Float> getFloats() {
+		return this.floats;
+	}
+
+	public void setFloats(final Collection<Float> floats) {
+		this.floats = floats;
+	}
 
 	@Valid
 	@EachNotNull

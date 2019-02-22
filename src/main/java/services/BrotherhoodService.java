@@ -150,7 +150,6 @@ public class BrotherhoodService {
 		this.validator.validate(result, binding);
 
 		return result;
-
 	}
 
 }

@@ -16,7 +16,7 @@
 	</definition>
 
 	<definition name="procession/list" extends="master.page">
-		<put-attribute name="title" value="¡Bienvenidos!" />
+		<put-attribute name="title" value="Lista de procesiones" />
 		<put-attribute name="body" value="/views/procession/list.jsp" />
 	</definition>
 

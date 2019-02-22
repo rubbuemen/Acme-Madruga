@@ -8,8 +8,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -68,7 +68,7 @@ public class Brotherhood extends Actor {
 
 
 	// Relationships
-	private Collection<Float>	floats;
+	private Collection<Float>		floats;
 	private Collection<Procession>	processions;
 	private Collection<Enrolment>	enrolments;
 	private Area					area;
@@ -108,7 +108,7 @@ public class Brotherhood extends Actor {
 	}
 
 	@Valid
-	@OneToOne(optional = true)
+	@ManyToOne(optional = true)
 	public Area getArea() {
 		return this.area;
 	}

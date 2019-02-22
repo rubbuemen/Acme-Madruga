@@ -36,10 +36,21 @@
 		<security:intercept-url pattern="/security/login.do" access="permitAll" />
 		<security:intercept-url pattern="/security/loginFailure.do"	access="permitAll" />
 		<security:intercept-url pattern="/welcome/index.do"	access="permitAll" />
+		<security:intercept-url pattern="/brotherhood/list.do"	access="permitAll" />
+		<security:intercept-url pattern="/brotherhood/show.do"	access="permitAll" />
+		<security:intercept-url pattern="/member/list.do"	access="permitAll" />
+		<security:intercept-url pattern="/member/show.do"	access="permitAll" />
+		<security:intercept-url pattern="/procession/list.do"	access="permitAll" />
+		<security:intercept-url pattern="/float/list.do"	access="permitAll" />
 
 		<security:intercept-url pattern="/actor/register-brotherhood.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/actor/register-member.do" access="isAnonymous()" />
 		
 		<security:intercept-url pattern="/actor/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		
+		<security:intercept-url pattern="/actor/member/**" access="hasRole('MEMBER')" />
+		
+		<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" />
 
 		<security:intercept-url pattern="/profile/action-1.do"
 			access="isAuthenticated()" />
