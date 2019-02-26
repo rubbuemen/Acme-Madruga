@@ -4,8 +4,9 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -19,6 +20,8 @@ public class RequestMarch extends DomainEntity {
 	// Attributes
 	private String	status;
 	private String	rejectReason;
+	private Integer	positionRow;
+	private Integer	positionColumn;
 
 
 	// Getters and Setters
@@ -42,19 +45,36 @@ public class RequestMarch extends DomainEntity {
 		this.rejectReason = rejectReason;
 	}
 
-
-	// Relationships
-	private PositionProcession	positionProcession;
-
-
-	@Valid
-	@OneToOne(optional = true)
-	public PositionProcession getPositionProcession() {
-		return this.positionProcession;
+	public Integer getPositionRow() {
+		return this.positionRow;
 	}
 
-	public void setPositionProcession(final PositionProcession positionProcession) {
-		this.positionProcession = positionProcession;
+	public void setPositionRow(final Integer positionRow) {
+		this.positionRow = positionRow;
+	}
+
+	public Integer getPositionColumn() {
+		return this.positionColumn;
+	}
+
+	public void setPositionColumn(final Integer positionColumn) {
+		this.positionColumn = positionColumn;
+	}
+
+
+	// Relationships
+	private Member	member;
+
+
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Member getMember() {
+		return this.member;
+	}
+
+	public void setMember(final Member member) {
+		this.member = member;
 	}
 
 }

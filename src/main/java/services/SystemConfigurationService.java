@@ -2,6 +2,8 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.SystemConfigurationRepository;
+import domain.Procession;
+import domain.RequestMarch;
 import domain.SystemConfiguration;
 
 @Service
@@ -19,8 +23,10 @@ public class SystemConfigurationService {
 	@Autowired
 	private SystemConfigurationRepository	systemConfigurationRepository;
 
-
 	// Supporting services
+	@Autowired
+	private ProcessionService				processionService;
+
 
 	// Simple CRUD methods
 	public SystemConfiguration create() {
@@ -75,6 +81,38 @@ public class SystemConfigurationService {
 
 		result = this.systemConfigurationRepository.getConfiguration();
 		Assert.notNull(result);
+
+		return result;
+	}
+
+	// R10.6: The system must suggest a good position automatically
+	public Map<Integer, Integer> suggestedRowColumn(final int requestMarchId) {
+		final Map<Integer, Integer> result = new HashMap<>();
+
+		final Procession procession = this.processionService.findProcessionByRequestMarchId(requestMarchId);
+		final Collection<RequestMarch> requestsMarchProcession = procession.getRequestsMarch();
+
+		Integer suggestedRow = 0;
+		Integer suggestedColumn = 0;
+
+		final boolean[][] position = new boolean[procession.getMaxRows()][procession.getMaxColumns()];
+
+		for (final RequestMarch rm : requestsMarchProcession)
+			if (rm.getStatus().equals("APPROVED") && rm.getPositionRow() != null && rm.getPositionColumn() != null) {
+				final Integer r = rm.getPositionRow() - 1;
+				final Integer c = rm.getPositionColumn() - 1;
+				position[r][c] = true;
+			}
+
+		breakloop: for (int r = 0; r < position.length; r++)
+			for (int c = 0; c < position[r].length; c++)
+				if (position[r][c] == false) {
+					suggestedRow = r;
+					suggestedColumn = c;
+					break breakloop;
+				}
+
+		result.put(suggestedRow + 1, suggestedColumn + 1);
 
 		return result;
 	}

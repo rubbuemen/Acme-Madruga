@@ -8,12 +8,14 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -35,6 +37,8 @@ public class Procession extends DomainEntity {
 	private String	description;
 	private Date	momentOrganise;
 	private Boolean	isFinalMode;
+	private Integer	maxRows;
+	private Integer	maxColumns;
 
 
 	// Getters and Setters
@@ -91,6 +95,26 @@ public class Procession extends DomainEntity {
 		this.isFinalMode = isFinalMode;
 	}
 
+	@NotNull
+	@Min(1)
+	public Integer getMaxRows() {
+		return this.maxRows;
+	}
+
+	public void setMaxRows(final Integer maxRows) {
+		this.maxRows = maxRows;
+	}
+
+	@NotNull
+	@Min(1)
+	public Integer getMaxColumns() {
+		return this.maxColumns;
+	}
+
+	public void setMaxColumns(final Integer maxColumns) {
+		this.maxColumns = maxColumns;
+	}
+
 
 	// Relationships
 	private Collection<Float>			floats;
@@ -100,7 +124,7 @@ public class Procession extends DomainEntity {
 	@NotEmpty
 	@Valid
 	@EachNotNull
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	public Collection<Float> getFloats() {
 		return this.floats;
 	}

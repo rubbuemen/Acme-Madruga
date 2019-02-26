@@ -34,7 +34,20 @@
 	<display:column title="${infoH}">
 		<acme:button url="member/show.do?memberId=${row.id}" code="button.more" />
 	</display:column>
+	
+	<security:authorize access="hasRole('BROTHERHOOD')">
+		<spring:message code="member.remove" var="removeH" />
+		<display:column title="${removeH}">
+			<acme:button url="member/brotherhood/remove.do?memberId=${row.id}" code="button.remove" />
+		</display:column>
+	</security:authorize>
 		
 </display:table>
 
-<acme:button url="brotherhood/list.do" code="button.back" />
+<security:authorize access="hasRole('BROTHERHOOD')">
+	<acme:button url="enrolment/brotherhood/list.do" code="brotherhood.enroll" />
+</security:authorize>
+
+<security:authorize access="isAnonymous()">
+	<acme:button url="brotherhood/list.do" code="button.back" />
+</security:authorize>

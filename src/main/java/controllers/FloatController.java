@@ -44,7 +44,7 @@ public class FloatController extends AbstractController {
 		result = new ModelAndView("float/list");
 
 		result.addObject("floats", floats);
-		result.addObject("requestURI", "floats/list.do");
+		result.addObject("requestURI", "float/list.do");
 
 		return result;
 	}

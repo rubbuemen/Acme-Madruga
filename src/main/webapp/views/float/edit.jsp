@@ -16,6 +16,30 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+<form:form action="${actionURL}" modelAttribute="floatE">
+
+	<form:hidden path="id" />
+	<form:hidden path="version" />
+
+	<acme:textbox code="float.title" path="title" placeholder="Lorem Ipsum"/>
+	<br />
+
+	<acme:textbox code="float.description" path="description" placeholder="Lorem Ipsum"/>
+	<br />
+	
+	<acme:textarea code="float.pictures" path="pictures" placeholder="http://Loremipsum.com, http://Loremipsum.com, ..." />
+	<br />
+
+	<jstl:choose>
+		<jstl:when test="${floatE.id == 0}">
+			<acme:submit name="save" code="button.register" />
+		</jstl:when>
+		<jstl:otherwise>
+			<acme:submit name="save" code="button.save" />
+		</jstl:otherwise>
+	</jstl:choose>
+	<acme:cancel url="float/brotherhood/list.do" code="button.cancel" />
+
+</form:form>

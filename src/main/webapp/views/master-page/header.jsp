@@ -32,6 +32,29 @@
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('BROTHERHOOD')">
+			<li>
+				<a class="fNiv"><spring:message code="master.page.brotherhood" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="float/brotherhood/list.do"><spring:message code="master.page.floats" /></a></li>
+					<li><a href="procession/brotherhood/list.do"><spring:message code="master.page.processions" /></a></li>
+					<li><a href="member/brotherhood/list.do"><spring:message code="master.page.members" /></a></li>
+					<li><a href="enrolment/brotherhood/list.do"><spring:message code="master.page.enrolments" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('MEMBER')">
+			<li>
+				<a class="fNiv"><spring:message code="master.page.member" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="requestMarch/member/list.do"><spring:message code="master.page.requestsMarch" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		
 		
 		<security:authorize access="hasRole('ADMIN')">
 			<li>

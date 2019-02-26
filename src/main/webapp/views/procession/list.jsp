@@ -21,8 +21,6 @@
 
 <display:table pagesize="5" class="displaytag" name="processions" requestURI="${requestURI}" id="row">
 
-	<fmt:formatDate var="format" value="${row.momentOrganise}" pattern="dd/MM/YYYY" />
-	
 	<spring:message code="procession.ticker" var="ticker" />
 	<display:column property="ticker" title="${ticker}" />
 	
@@ -33,8 +31,53 @@
 	<display:column property="description" title="${description}" />
 	
 	<spring:message code="procession.momentOrganise" var="momentOrganise" />
-	<display:column property="momentOrganise" title="${momentOrganise}" format="${format}" />
+	<display:column title="${momentOrganise}">
+			<fmt:formatDate var="format" value="${row.momentOrganise}" pattern="dd/MM/YYYY HH:mm" />
+			<jstl:out value="${format}" />
+	</display:column>
+	
+	<security:authorize access="hasRole('BROTHERHOOD')">
+		<spring:message code="procession.maxRows" var="maxRows" />
+		<display:column property="maxRows" title="${maxRows}" />
 		
+		<spring:message code="procession.maxColumns" var="maxColumns" />
+		<display:column property="maxColumns" title="${maxColumns}" />
+	
+		<spring:message code="procession.edit" var="editH" />
+		<display:column title="${editH}">
+			<jstl:if test="${!row.isFinalMode}">
+				<acme:button url="procession/brotherhood/edit.do?processionId=${row.id}" code="button.edit" />
+			</jstl:if>	
+		</display:column>
+		
+		<spring:message code="procession.delete" var="deleteH" />
+		<display:column title="${deleteH}">
+			<jstl:if test="${!row.isFinalMode}">
+				<acme:button url="procession/brotherhood/delete.do?processionId=${row.id}" code="button.delete" />
+			</jstl:if>	
+		</display:column>
+		
+		<spring:message code="procession.changeFinalMode" var="changeFinalModeH" />
+		<display:column title="${changeFinalModeH}" >
+			<jstl:if test="${!row.isFinalMode}">
+				<acme:button url="procession/brotherhood/change.do?processionId=${row.id}" code="button.change" />
+			</jstl:if>
+		</display:column>
+		
+		<spring:message code="procession.requestsMarch" var="requestsMarchH" />
+		<display:column title="${requestsMarchH}">
+			<jstl:if test="${row.isFinalMode}">
+				<acme:button url="requestMarch/brotherhood/list.do?processionId=${row.id}" code="button.show" />
+			</jstl:if>	
+		</display:column>
+	</security:authorize>
+			
 </display:table>
 
-<acme:button url="brotherhood/list.do" code="button.back" />
+<security:authorize access="hasRole('BROTHERHOOD')">
+	<acme:button url="procession/brotherhood/create.do" code="button.create" />
+</security:authorize>
+
+<security:authorize access="isAnonymous()">
+	<acme:button url="brotherhood/list.do" code="button.back" />
+</security:authorize>

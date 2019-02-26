@@ -17,6 +17,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
@@ -56,11 +57,33 @@
 		<li><b>${title}:</b> <jstl:out value="${actor.title}" /></li>
 		
 		<spring:message code="brotherhood.establishmentDate" var="establishmentDate" />
-		<li><b>${establishmentDate}:</b> <jstl:out value="${actor.establishmentDate}" /></li>
+		<fmt:formatDate var="format" value="${actor.establishmentDate}" pattern="dd/MM/YYYY" />
+		<li><b>${establishmentDate}:</b> <jstl:out value="${format}" /></li>
 		
 		<spring:message code="brotherhood.comments" var="comments" />
 		<li><b>${comments}:</b> <jstl:out value="${actor.comments}" /></li>
 	</jstl:if>
+	
+	<jstl:if test="${authority == 'MEMBER'}">
+		<spring:message code="member.positionBrotherhood" var="positionBrotherhoodH" />
+		<li><b>${positionBrotherhoodH}:</b> <jstl:out value="${positionBrotherhood}" /></li>
+		
+		<spring:message code="member.momentRegistered" var="momentRegisteredH" />
+		<fmt:formatDate var="format" value="${momentRegistered}" pattern="dd/MM/YYYY HH:mm" />
+		<li><b>${momentRegisteredH}:</b> <jstl:out value="${format}" /></li>
+	</jstl:if>
 </ul>
 
-<acme:button url="brotherhood/list.do" code="button.back" />
+<jstl:choose>
+	<jstl:when test="${authority == 'MEMBER'}">
+		<acme:button url="member/brotherhood/list.do" code="button.back" />
+	</jstl:when>
+		<jstl:when test="${access == 'enrolment'}">
+		<acme:button url="enrolment/brotherhood/list.do" code="button.back" />
+	</jstl:when>
+	<jstl:otherwise>
+		<acme:button url="brotherhood/list.do" code="button.back" />
+	</jstl:otherwise>
+</jstl:choose>
+
+

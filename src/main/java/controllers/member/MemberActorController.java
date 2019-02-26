@@ -60,21 +60,18 @@ public class MemberActorController extends AbstractController {
 	public ModelAndView edit(@ModelAttribute("actorForm") MemberForm actorForm, final BindingResult binding) {
 		ModelAndView result;
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(actorForm.getActor());
-		else
-			try {
-				actorForm = this.memberService.reconstruct(actorForm, binding);
-				if (binding.hasErrors())
-					result = this.createEditModelAndView(actorForm.getActor());
-				else {
-					this.memberService.save(actorForm.getActor());
-					result = new ModelAndView("redirect:/welcome/index.do");
-				}
-
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
+		try {
+			actorForm = this.memberService.reconstruct(actorForm, binding);
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(actorForm.getActor());
+			else {
+				this.memberService.save(actorForm.getActor());
+				result = new ModelAndView("redirect:/welcome/index.do");
 			}
+
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
+		}
 
 		return result;
 	}

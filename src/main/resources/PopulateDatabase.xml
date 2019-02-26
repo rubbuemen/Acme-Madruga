@@ -996,36 +996,6 @@
 	</bean>
 
 
-	<!-- PositionProcession -->
-	<bean id="positionProcession1" class="domain.PositionProcession">
-		<property name="positionRow" value="1" />
-		<property name="positionColumn" value="1" />
-	</bean>
-	<bean id="positionProcession2" class="domain.PositionProcession">
-		<property name="positionRow" value="1" />
-		<property name="positionColumn" value="1" />
-	</bean>
-	<bean id="positionProcession3" class="domain.PositionProcession">
-		<property name="positionRow" value="1" />
-		<property name="positionColumn" value="2" />
-	</bean>
-	<bean id="positionProcession4" class="domain.PositionProcession">
-		<property name="positionRow" value="2" />
-		<property name="positionColumn" value="1" />
-	</bean>
-	<bean id="positionProcession5" class="domain.PositionProcession">
-		<property name="positionRow" value="1" />
-		<property name="positionColumn" value="1" />
-	</bean>
-	<bean id="positionProcession6" class="domain.PositionProcession">
-		<property name="positionRow" value="1" />
-		<property name="positionColumn" value="2" />
-	</bean>
-	<bean id="positionProcession7" class="domain.PositionProcession">
-		<property name="positionRow" value="2" />
-		<property name="positionColumn" value="1" />
-	</bean>
-
 	<!-- Procession -->
 	<bean id="procession1" class="domain.Procession">
 		<property name="ticker" value="190710-OTPFJ" />
@@ -1033,6 +1003,8 @@
 		<property name="description" value="This is a test description." />
 		<property name="momentOrganise" value="2019/07/30 10:00" />
 		<property name="isFinalMode" value="true" />
+		<property name="maxRows" value="500" />
+		<property name="maxColumns" value="2" />
 		<property name="floats">
 			<list>
 				<ref bean="float1" />
@@ -1059,6 +1031,8 @@
 		<property name="description" value="This is a test description." />
 		<property name="momentOrganise" value="2019/07/10 10:00" />
 		<property name="isFinalMode" value="true" />
+		<property name="maxRows" value="450" />
+		<property name="maxColumns" value="2" />
 		<property name="floats">
 			<list>
 				<ref bean="float1" />
@@ -1079,6 +1053,8 @@
 		<property name="description" value="This is a test description." />
 		<property name="momentOrganise" value="2019/10/03 10:00" />
 		<property name="isFinalMode" value="true" />
+		<property name="maxRows" value="300" />
+		<property name="maxColumns" value="2" />
 		<property name="floats">
 			<list>
 				<ref bean="float3" />
@@ -1098,6 +1074,8 @@
 		<property name="description" value="This is a test description." />
 		<property name="momentOrganise" value="2019/07/30 15:00" />
 		<property name="isFinalMode" value="false" />
+		<property name="maxRows" value="600" />
+		<property name="maxColumns" value="2" />
 		<property name="floats">
 			<list>
 				<ref bean="float4" />
@@ -1109,60 +1087,83 @@
 	<!-- RequestMarch -->
 	<bean id="requestMarch1" class="domain.RequestMarch">
 		<property name="status" value="PENDING" />
+		<property name="member" ref="member1" />
 	</bean>
 	<bean id="requestMarch2" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
-		<property name="positionProcession" ref="positionProcession2" />
+		<property name="positionRow" value="1" />
+		<property name="positionColumn" value="1" />
+		<property name="member" ref="member1" />
 	</bean>
 	<bean id="requestMarch3" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
-		<property name="positionProcession" ref="positionProcession5" />
+		<property name="positionRow" value="1" />
+		<property name="positionColumn" value="1" />
+		<property name="member" ref="member1" />
 	</bean>
 	<bean id="requestMarch4" class="domain.RequestMarch">
 		<property name="status" value="REJECTED" />
+		<property name="member" ref="member1" />
 		<property name="rejectReason" value="You are too young." />
 	</bean>
 	<bean id="requestMarch5" class="domain.RequestMarch">
 		<property name="status" value="PENDING" />
+		<property name="member" ref="member2" />
 	</bean>
 	<bean id="requestMarch6" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
-		<property name="positionProcession" ref="positionProcession3" />
+		<property name="member" ref="member2" />
+		<property name="positionRow" value="1" />
+		<property name="positionColumn" value="2" />
 	</bean>
 	<bean id="requestMarch7" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
-		<property name="positionProcession" ref="positionProcession6" />
+		<property name="positionRow" value="1" />
+		<property name="positionColumn" value="2" />
+		<property name="member" ref="member2" />
 	</bean>
 	<bean id="requestMarch8" class="domain.RequestMarch">
 		<property name="status" value="REJECTED" />
+		<property name="member" ref="member2" />
 		<property name="rejectReason" value="You are too old." />
 	</bean>
 	<bean id="requestMarch9" class="domain.RequestMarch">
 		<property name="status" value="PENDING" />
+		<property name="member" ref="member3" />
 	</bean>
 	<bean id="requestMarch10" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
-		<property name="positionProcession" ref="positionProcession4" />
+		<property name="member" ref="member3" />
+		<property name="positionRow" value="2" />
+		<property name="positionColumn" value="1" />
 	</bean>
 	<bean id="requestMarch11" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
-		<property name="positionProcession" ref="positionProcession7" />
+		<property name="positionRow" value="2" />
+		<property name="positionColumn" value="1" />
+		<property name="member" ref="member3" />
 	</bean>
 	<bean id="requestMarch12" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
-		<property name="positionProcession" ref="positionProcession1" />
+		<property name="positionRow" value="1" />
+		<property name="positionColumn" value="1" />
+		<property name="member" ref="member3" />
 	</bean>
 	<bean id="requestMarch13" class="domain.RequestMarch">
 		<property name="status" value="PENDING" />
+		<property name="member" ref="member4" />
 	</bean>
 	<bean id="requestMarch14" class="domain.RequestMarch">
 		<property name="status" value="PENDING" />
+		<property name="member" ref="member4" />
 	</bean>
 	<bean id="requestMarch15" class="domain.RequestMarch">
 		<property name="status" value="PENDING" />
+		<property name="member" ref="member4" />
 	</bean>
 	<bean id="requestMarch16" class="domain.RequestMarch">
 		<property name="status" value="PENDING" />
+		<property name="member" ref="member4" />
 	</bean>
 
 

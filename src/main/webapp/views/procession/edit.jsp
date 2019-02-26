@@ -16,6 +16,39 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+<form:form action="${actionURL}" modelAttribute="procession">
+
+	<form:hidden path="id" />
+	<form:hidden path="version" />
+
+	<acme:textbox code="procession.title" path="title" placeholder="Lorem Ipsum"/>
+	<br />
+
+	<acme:textbox code="procession.description" path="description" placeholder="Lorem Ipsum"/>
+	<br />
+	
+	<acme:textbox code="procession.momentOrganise" path="momentOrganise" placeholder="dd/MM/yyyy HH:mm" type="datetime"  />
+	<br />
+	
+	<acme:textbox code="procession.maxRows" path="maxRows" placeholder="1" type="number" min="1" />
+	<br />
+	
+	<acme:textbox code="procession.maxColumns" path="maxColumns" placeholder="1" type="number"  min="1" />
+	<br />
+	
+	<acme:select items="${floats}" itemLabel="title" code="procession.floats" path="floats" multiple="true" />
+	<br />
+
+	<jstl:choose>
+		<jstl:when test="${procession.id == 0}">
+			<acme:submit name="save" code="button.register" />
+		</jstl:when>
+		<jstl:otherwise>
+			<acme:submit name="save" code="button.save" />
+		</jstl:otherwise>
+	</jstl:choose>
+	<acme:cancel url="procession/brotherhood/list.do" code="button.cancel" />
+
+</form:form>

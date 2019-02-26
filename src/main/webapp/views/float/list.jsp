@@ -33,7 +33,25 @@
 		<img src="<jstl:out value="${picture}"/>" width="200px" height="200px" />
 	</jstl:forEach>
 	</display:column>
+	
+	<security:authorize access="hasRole('BROTHERHOOD')">
+		<spring:message code="float.edit" var="editH" />
+		<display:column title="${editH}">
+			<acme:button url="float/brotherhood/edit.do?floatId=${row.id}" code="button.edit" />
+		</display:column>
+		
+		<spring:message code="float.delete" var="deleteH" />
+		<display:column title="${deleteH}">
+			<acme:button url="float/brotherhood/delete.do?floatId=${row.id}" code="button.delete" />
+		</display:column>
+	</security:authorize>
 			
 </display:table>
 
-<acme:button url="brotherhood/list.do" code="button.back" />
+<security:authorize access="hasRole('BROTHERHOOD')">
+	<acme:button url="float/brotherhood/create.do" code="button.create" />
+</security:authorize>
+
+<security:authorize access="isAnonymous()">
+	<acme:button url="brotherhood/list.do" code="button.back" />
+</security:authorize>

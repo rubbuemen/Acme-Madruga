@@ -39,7 +39,7 @@ public class ProcessionController extends AbstractController {
 		ModelAndView result;
 		Collection<Procession> processions;
 
-		processions = this.processionService.findProcessionsByBrotherhoodId(brotherhoodId);
+		processions = this.processionService.findProcessionsFinalModeByBrotherhoodId(brotherhoodId);
 
 		result = new ModelAndView("procession/list");
 

@@ -14,7 +14,9 @@ import org.springframework.validation.Validator;
 import repositories.MemberRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
 import domain.Box;
+import domain.Brotherhood;
 import domain.Enrolment;
 import domain.Finder;
 import domain.Member;
@@ -38,6 +40,9 @@ public class MemberService {
 
 	@Autowired
 	private ActorService		actorService;
+
+	@Autowired
+	private BrotherhoodService	brotherhoodService;
 
 
 	// Simple CRUD methods
@@ -119,6 +124,51 @@ public class MemberService {
 
 		result = this.memberRepository.findMembersByBrotherhoodId(brotherhoodId);
 		Assert.notNull(result);
+
+		return result;
+	}
+
+	// R10.3
+	public Collection<Member> findMembersByBrotherhoodLogged() {
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginBrotherhood(actorLogged);
+
+		Collection<Member> result;
+
+		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
+
+		result = this.memberRepository.findMembersByBrotherhoodId(brotherhoodLogged.getId());
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	// R10.3
+	public Member findMemberBrotherhoodLogged(final int memberId) {
+		Assert.isTrue(memberId != 0);
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginBrotherhood(actorLogged);
+
+		final Collection<Brotherhood> brotherhoodsOwner = this.brotherhoodService.findBrotherhoodsByMemberId(memberId);
+		Assert.isTrue(brotherhoodsOwner.contains(actorLogged), "The logged actor is not the owner of this entity");
+
+		Member result;
+
+		result = this.memberRepository.findOne(memberId);
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Member saveAuxiliar(final Member member) {
+		Assert.notNull(member);
+
+		Member result;
+
+		result = this.memberRepository.save(member);
 
 		return result;
 	}

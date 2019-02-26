@@ -14,10 +14,12 @@ import org.springframework.validation.Validator;
 import repositories.BrotherhoodRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
 import domain.Box;
 import domain.Brotherhood;
 import domain.Enrolment;
 import domain.Float;
+import domain.Member;
 import domain.Procession;
 import forms.BrotherhoodForm;
 
@@ -100,8 +102,66 @@ public class BrotherhoodService {
 		this.brotherhoodRepository.delete(brotherhood);
 	}
 
-
 	// Other business methods
+	public Brotherhood findBrotherhoodByFloatId(final int floatId) {
+		Assert.isTrue(floatId != 0);
+
+		Brotherhood result;
+
+		result = this.brotherhoodRepository.findBrotherhoodByFloatId(floatId);
+		return result;
+	}
+
+	public Brotherhood findBrotherhoodByProcessionId(final int processionId) {
+		Assert.isTrue(processionId != 0);
+
+		Brotherhood result;
+
+		result = this.brotherhoodRepository.findBrotherhoodByProcessionId(processionId);
+		return result;
+	}
+
+	public Brotherhood findBrotherhoodByEnrolmentId(final int enrolmentId) {
+		Assert.isTrue(enrolmentId != 0);
+
+		Brotherhood result;
+
+		result = this.brotherhoodRepository.findBrotherhoodByEnrolmentId(enrolmentId);
+		return result;
+	}
+
+	public Collection<Brotherhood> findBrotherhoodsByMemberId(final int memberId) {
+		Assert.isTrue(memberId != 0);
+
+		Collection<Brotherhood> result;
+
+		result = this.brotherhoodRepository.findBrotherhoodsByMemberId(memberId);
+		return result;
+	}
+
+	public Brotherhood findBrotherhoodByRequestMarchId(final int requestMarchId) {
+		Assert.isTrue(requestMarchId != 0);
+
+		Brotherhood result;
+
+		result = this.brotherhoodRepository.findBrotherhoodByRequestMarchId(requestMarchId);
+		return result;
+	}
+
+	// R11.3
+	public Collection<Brotherhood> findBrotherhoodsByMemberLogged() {
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginMember(actorLogged);
+
+		final Member memberLogged = (Member) actorLogged;
+
+		Collection<Brotherhood> result;
+
+		result = this.brotherhoodRepository.findBrotherhoodsByMemberId(memberLogged.getId());
+		return result;
+	}
+
 
 	// Reconstruct methods
 	@Autowired

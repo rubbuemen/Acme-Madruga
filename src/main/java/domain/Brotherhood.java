@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -76,7 +75,7 @@ public class Brotherhood extends Actor {
 
 	@Valid
 	@EachNotNull
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	public Collection<Float> getFloats() {
 		return this.floats;
 	}

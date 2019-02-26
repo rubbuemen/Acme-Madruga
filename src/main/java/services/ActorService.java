@@ -145,21 +145,21 @@ public class ActorService {
 		final Authority auth = new Authority();
 		auth.setAuthority(Authority.BROTHERHOOD);
 		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
-		Assert.isTrue(authorities.contains(auth));
+		Assert.isTrue(authorities.contains(auth), "The logged actor is not a brotherhood");
 	}
 
 	public void checkUserLoginMember(final Actor actor) {
 		final Authority auth = new Authority();
 		auth.setAuthority(Authority.MEMBER);
 		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
-		Assert.isTrue(authorities.contains(auth));
+		Assert.isTrue(authorities.contains(auth), "The logged actor is not a member");
 	}
 
 	public void checkUserLoginAdministrator(final Actor actor) {
 		final Authority auth = new Authority();
 		auth.setAuthority(Authority.ADMIN);
 		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
-		Assert.isTrue(authorities.contains(auth));
+		Assert.isTrue(authorities.contains(auth), "The logged actor is not a administrator");
 	}
 
 	// Other business methods

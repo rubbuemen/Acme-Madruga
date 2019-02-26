@@ -20,14 +20,15 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <display:table pagesize="5" class="displaytag" name="brotherhoods" requestURI="${requestURI}" id="row">
-
-	<fmt:formatDate var="format" value="${row.establishmentDate}" pattern="dd/MM/YYYY" />
 	
 	<spring:message code="brotherhood.titleH" var="titleH" />
 	<display:column property="title" title="${titleH}" />
 	
 	<spring:message code="brotherhood.establishmentDateH" var="establishmentDateH" />
-	<display:column property="establishmentDate" title="${establishmentDateH}" format="${format}" />
+	<display:column title="${establishmentDateH}">
+			<fmt:formatDate var="format" value="${row.establishmentDate}" pattern="dd/MM/YYYY" />
+			<jstl:out value="${format}" />
+	</display:column>
 	
 	<spring:message code="brotherhood.commentsH" var="commentsH" />
 	<display:column property="comments" title="${commentsH}" />

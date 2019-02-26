@@ -82,6 +82,7 @@
 	<jstl:if test="${actorForm.actor.id == 0}">
 		<acme:checkbox code="actor.legal.accept" path="termsConditions" />
 		<a href="welcome/legal.do"><spring:message code="actor.legal.moreinfo" /></a>
+		<br /><br />
 	</jstl:if>
 
 	<jstl:choose>

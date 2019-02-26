@@ -106,21 +106,18 @@ public class AdministratorActorController extends AbstractController {
 	public ModelAndView edit(@ModelAttribute("actorForm") AdministratorForm actorForm, final BindingResult binding) {
 		ModelAndView result;
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(actorForm.getActor());
-		else
-			try {
-				actorForm = this.administratorService.reconstruct(actorForm, binding);
-				if (binding.hasErrors())
-					result = this.createEditModelAndView(actorForm.getActor());
-				else {
-					this.administratorService.save(actorForm.getActor());
-					result = new ModelAndView("redirect:/welcome/index.do");
-				}
-
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
+		try {
+			actorForm = this.administratorService.reconstruct(actorForm, binding);
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(actorForm.getActor());
+			else {
+				this.administratorService.save(actorForm.getActor());
+				result = new ModelAndView("redirect:/welcome/index.do");
 			}
+
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
+		}
 
 		return result;
 	}

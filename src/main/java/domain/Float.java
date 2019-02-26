@@ -7,6 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -48,7 +49,7 @@ public class Float extends DomainEntity {
 		this.description = description;
 	}
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@EachNotBlank
 	@EachURL
 	public Collection<String> getPictures() {

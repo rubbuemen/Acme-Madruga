@@ -47,8 +47,14 @@
 		<security:intercept-url pattern="/actor/register-member.do" access="isAnonymous()" />
 		
 		<security:intercept-url pattern="/actor/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/float/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/procession/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/member/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/enrolment/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/requestMarch/brotherhood/**" access="hasRole('BROTHERHOOD')" />
 		
 		<security:intercept-url pattern="/actor/member/**" access="hasRole('MEMBER')" />
+		<security:intercept-url pattern="/requestMarch/member/**" access="hasRole('MEMBER')" />
 		
 		<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" />
 

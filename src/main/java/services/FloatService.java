@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.FloatRepository;
 import domain.Actor;
 import domain.Brotherhood;
 import domain.Float;
+import domain.Procession;
 
 @Service
 @Transactional
@@ -28,9 +31,17 @@ public class FloatService {
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
 
+	@Autowired
+	private ProcessionService	processionService;
+
 
 	// Simple CRUD methods
+	// R10.1
 	public Float create() {
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginBrotherhood(actorLogged);
+
 		Float result;
 
 		result = new Float();
@@ -49,7 +60,6 @@ public class FloatService {
 
 	public Float findOne(final int floatId) {
 		Assert.isTrue(floatId != 0);
-
 		Float result;
 
 		result = this.floatRepository.findOne(floatId);
@@ -58,25 +68,61 @@ public class FloatService {
 		return result;
 	}
 
-	public Float save(final Float floatE, final Brotherhood brotherhood) {
+	// R10.1
+	public Float save(final Float floatE) {
 		Assert.notNull(floatE);
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginBrotherhood(actorLogged);
+
+		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
 
 		Float result;
 
-		result = this.floatRepository.save(floatE);
-
-		final Collection<Float> floatsBrotherhoodLogged = brotherhood.getFloats();
-		floatsBrotherhoodLogged.add(result);
-		brotherhood.setFloats(floatsBrotherhoodLogged);
-		this.brotherhoodService.save(brotherhood);
+		if (floatE.getId() == 0) {
+			result = this.floatRepository.save(floatE);
+			final Collection<Float> floatsBrotherhoodLogged = brotherhoodLogged.getFloats();
+			floatsBrotherhoodLogged.add(result);
+			brotherhoodLogged.setFloats(floatsBrotherhoodLogged);
+			this.brotherhoodService.save(brotherhoodLogged);
+		} else {
+			final Brotherhood brotherhoodOwner = this.brotherhoodService.findBrotherhoodByFloatId(floatE.getId());
+			Assert.isTrue(actorLogged.equals(brotherhoodOwner), "The logged actor is not the owner of this entity");
+			result = this.floatRepository.save(floatE);
+		}
 
 		return result;
 	}
 
+	// R10.1
 	public void delete(final Float floatE) {
 		Assert.notNull(floatE);
 		Assert.isTrue(floatE.getId() != 0);
 		Assert.isTrue(this.floatRepository.exists(floatE.getId()));
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginBrotherhood(actorLogged);
+
+		final Brotherhood brotherhoodOwner = this.brotherhoodService.findBrotherhoodByFloatId(floatE.getId());
+		Assert.isTrue(actorLogged.equals(brotherhoodOwner), "The logged actor is not the owner of this entity");
+
+		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
+
+		final Collection<Procession> processionsFloat = this.processionService.findProcessionsByFloatId(floatE.getId());
+		for (final Procession p : processionsFloat) {
+			Assert.isTrue(p.getFloats().size() > 1, "You can not eliminate this float because the procession would run out of floats");
+			final Collection<Float> floatsProcession = p.getFloats();
+			floatsProcession.remove(floatE);
+			p.setFloats(floatsProcession);
+			this.processionService.save(p);
+		}
+
+		final Collection<Float> floatsActorLogged = brotherhoodLogged.getFloats();
+		floatsActorLogged.remove(floatE);
+		brotherhoodLogged.setFloats(floatsActorLogged);
+		this.brotherhoodService.save(brotherhoodLogged);
 
 		this.floatRepository.delete(floatE);
 	}
@@ -110,6 +156,46 @@ public class FloatService {
 		return result;
 	}
 
+	// R10.1
+	public Float findFloatBrotherhoodLogged(final int floatId) {
+		Assert.isTrue(floatId != 0);
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginBrotherhood(actorLogged);
+
+		final Brotherhood brotherhoodOwner = this.brotherhoodService.findBrotherhoodByFloatId(floatId);
+		Assert.isTrue(actorLogged.equals(brotherhoodOwner), "The logged actor is not the owner of this entity");
+
+		Float result;
+
+		result = this.floatRepository.findOne(floatId);
+		Assert.notNull(result);
+
+		return result;
+	}
+
+
 	// Reconstruct methods
+	@Autowired
+	private Validator	validator;
+
+
+	public Float reconstruct(final Float floatE, final BindingResult binding) {
+		Float result;
+
+		if (floatE.getId() == 0)
+			result = floatE;
+		else {
+			result = this.floatRepository.findOne(floatE.getId());
+			result.setTitle(floatE.getTitle());
+			result.setDescription(floatE.getDescription());
+			result.setPictures(floatE.getPictures());
+		}
+
+		this.validator.validate(result, binding);
+
+		return result;
+	}
 
 }

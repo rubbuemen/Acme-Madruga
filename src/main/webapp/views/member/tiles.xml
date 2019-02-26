@@ -19,5 +19,6 @@
 		<put-attribute name="title" value="Member list" />
 		<put-attribute name="body" value="/views/member/list.jsp" />
 	</definition>
+	
 
 </tiles-definitions>

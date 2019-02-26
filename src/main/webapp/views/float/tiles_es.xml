@@ -10,8 +10,13 @@
 
 <tiles-definitions>
 
+	<definition name="float/create" extends="master.page">
+		<put-attribute name="title" value="Crear paso" />
+		<put-attribute name="body" value="/views/float/edit.jsp" />
+	</definition>
+	
 	<definition name="float/edit" extends="master.page">
-		<put-attribute name="title" value="¡Bienvenidos!" />
+		<put-attribute name="title" value="Editar paso" />
 		<put-attribute name="body" value="/views/float/edit.jsp" />
 	</definition>
 

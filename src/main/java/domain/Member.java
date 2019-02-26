@@ -36,7 +36,7 @@ public class Member extends Actor {
 
 	@Valid
 	@EachNotNull
-	@OneToMany
+	@OneToMany(mappedBy = "member")
 	public Collection<RequestMarch> getRequestsMarch() {
 		return this.requestsMarch;
 	}
