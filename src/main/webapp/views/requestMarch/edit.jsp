@@ -23,7 +23,6 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="status" value="${decision}"/>
-	<form:hidden path="member"/>
 	
 	<jstl:if test="${decision eq 'APPROVED'}">
 		<h3><spring:message code="requestMarch.infoNeedSelect" /></h3>
@@ -42,7 +41,7 @@
 	<jstl:if test="${decision eq 'REJECTED'}">
 		<h3><spring:message code="requestMarch.infoNeedExplain" /></h3>
 		
-		<acme:textarea code="requestMarch.rejectReason" path="rejectReason" />
+		<acme:textarea code="requestMarch.rejectReason" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at auctor massa" path="rejectReason" />
 		<br />
 	</jstl:if>
 	

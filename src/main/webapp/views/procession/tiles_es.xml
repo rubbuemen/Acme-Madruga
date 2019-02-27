@@ -24,5 +24,10 @@
 		<put-attribute name="title" value="Lista de procesiones" />
 		<put-attribute name="body" value="/views/procession/list.jsp" />
 	</definition>
+	
+	<definition name="procession/listGeneric" extends="master.page">
+		<put-attribute name="title" value="Lista de procesiones" />
+		<put-attribute name="body" value="/views/procession/listGeneric.jsp" />
+	</definition>
 
 </tiles-definitions>

@@ -85,7 +85,7 @@ public class BrotherhoodMemberController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Member member, final String message) {
 		ModelAndView result;
 
-		result = new ModelAndView("member/list");
+		result = new ModelAndView("redirect:/welcome/index.do");
 		result.addObject("member", member);
 		result.addObject("message", message);
 

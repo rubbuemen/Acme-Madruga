@@ -52,7 +52,15 @@ public class EnrolmentService {
 	public Enrolment create() {
 		Enrolment result;
 
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginMember(actorLogged);
+
+		final Member memberLogged = (Member) actorLogged;
+
 		result = new Enrolment();
+
+		result.setMember(memberLogged);
 
 		return result;
 	}
@@ -100,8 +108,24 @@ public class EnrolmentService {
 			final PositionBrotherhood positionBrotherhood = this.positionBrotherhoodService.save(enrolment.getPositionBrotherhood());
 			Assert.notNull(positionBrotherhood);
 			enrolment.setPositionBrotherhood(positionBrotherhood);
-		} else if (actorLogged instanceof Member)
-			this.actorService.checkUserLoginMember(actorLogged);
+		}
+
+		result = this.enrolmentRepository.save(enrolment);
+
+		return result;
+	}
+
+	public Enrolment save(final Enrolment enrolment, final Brotherhood brotherhood) {
+		Assert.notNull(enrolment);
+		Assert.notNull(brotherhood);
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginMember(actorLogged);
+
+		Enrolment result;
+
+		enrolment.setBrotherhood(brotherhood);
 
 		result = this.enrolmentRepository.save(enrolment);
 
@@ -239,6 +263,23 @@ public class EnrolmentService {
 
 		result = this.enrolmentRepository.findOne(enrolmentId);
 		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Collection<Enrolment> findEnrolmentsByBrotherhoodId(final int brotherhoodId) {
+		Assert.isTrue(brotherhoodId != 0);
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginMember(actorLogged);
+
+		Collection<Enrolment> result;
+
+		final Collection<Member> memberOwner = this.memberService.findMembersByBrotherhoodIdAll(brotherhoodId);
+		Assert.isTrue(memberOwner.contains(actorLogged), "The logged actor is not the owner of this entity");
+
+		result = this.enrolmentRepository.findEnrolmentsOfBrotherhoodByMemberId(brotherhoodId, actorLogged.getId());
 
 		return result;
 	}

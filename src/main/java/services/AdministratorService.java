@@ -17,6 +17,9 @@ import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
 import domain.Box;
+import domain.Brotherhood;
+import domain.Member;
+import domain.Procession;
 import forms.AdministratorForm;
 
 @Service
@@ -100,6 +103,95 @@ public class AdministratorService {
 		Assert.isTrue(this.administratorRepository.exists(administrator.getId()));
 
 		this.administratorRepository.delete(administrator);
+	}
+
+	//Queries Dashboard
+	public String dashboardQueryC1() {
+		String result;
+
+		result = this.administratorRepository.dashboardQueryC1();
+
+		return result;
+	}
+
+	public Collection<Brotherhood> dashboardQueryC2() {
+		Collection<Brotherhood> result;
+
+		result = this.administratorRepository.dashboardQueryC2();
+
+		return result;
+	}
+
+	public Collection<Brotherhood> dashboardQueryC3() {
+		Collection<Brotherhood> result;
+
+		result = this.administratorRepository.dashboardQueryC3();
+
+		return result;
+	}
+
+	public Collection<Object[]> dashboardQueryC4() {
+		Collection<Object[]> result;
+
+		result = this.administratorRepository.dashboardQueryC4();
+
+		return result;
+	}
+
+	public Collection<Procession> dashboardQueryC5() {
+		Collection<Procession> result;
+
+		result = this.administratorRepository.dashboardQueryC5();
+
+		return result;
+	}
+
+	public Collection<Object[]> dashboardQueryC6() {
+		Collection<Object[]> result;
+
+		result = this.administratorRepository.dashboardQueryC6();
+
+		return result;
+	}
+
+	public Collection<Member> dashboardQueryC7() {
+		Collection<Member> result;
+
+		result = this.administratorRepository.dashboardQueryC7();
+
+		return result;
+	}
+
+	public Collection<Object[]> dashboardQueryC8() {
+		Collection<Object[]> result;
+
+		result = this.administratorRepository.dashboardQueryC8();
+
+		return result;
+	}
+
+	public String dashboardQueryB1() {
+		String result;
+
+		result = this.administratorRepository.dashboardQueryB1();
+
+		return result;
+	}
+
+	public String dashboardQueryB2() {
+		String result;
+
+		result = this.administratorRepository.dashboardQueryB2();
+
+		return result;
+	}
+
+	public String dashboardQueryB3() {
+		String result;
+
+		result = this.administratorRepository.dashboardQueryB3();
+
+		return result;
 	}
 
 

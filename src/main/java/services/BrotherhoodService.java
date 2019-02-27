@@ -38,6 +38,9 @@ public class BrotherhoodService {
 	@Autowired
 	private ActorService			actorService;
 
+	@Autowired
+	private MemberService			memberService;
+
 
 	// Simple CRUD methods
 	// R8.1, R9.1
@@ -159,6 +162,60 @@ public class BrotherhoodService {
 		Collection<Brotherhood> result;
 
 		result = this.brotherhoodRepository.findBrotherhoodsByMemberId(memberLogged.getId());
+		return result;
+	}
+
+	// R11.3
+	public Collection<Brotherhood> findBrotherhoodsNotBelongsByMemberLogged() {
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginMember(actorLogged);
+
+		final Member memberLogged = (Member) actorLogged;
+
+		Collection<Brotherhood> result;
+
+		result = this.brotherhoodRepository.findBrotherhoodsNotBelongsByMemberLogged(memberLogged.getId());
+		return result;
+	}
+
+	public Brotherhood findBrotherhoodMemberLogged(final int brotherhoodId) {
+		Assert.isTrue(brotherhoodId != 0);
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginMember(actorLogged);
+
+		final Collection<Member> membersOwner = this.memberService.findMembersByBrotherhoodId(brotherhoodId);
+		Assert.isTrue(membersOwner.contains(actorLogged), "The logged actor is not the owner of this entity");
+
+		Brotherhood result;
+
+		result = this.brotherhoodRepository.findOne(brotherhoodId);
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Collection<Brotherhood> findBrotherhoodsAcceptedOrPendingByMemberId(final int memberId) {
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginMember(actorLogged);
+
+		final Member memberLogged = (Member) actorLogged;
+
+		Collection<Brotherhood> result;
+
+		result = this.brotherhoodRepository.findBrotherhoodsAcceptedOrPendingByMemberId(memberLogged.getId());
+		return result;
+	}
+
+	public Brotherhood saveAuxiliar(final Brotherhood brotherhood) {
+		Assert.notNull(brotherhood);
+
+		Brotherhood result;
+		result = this.brotherhoodRepository.save(brotherhood);
+
 		return result;
 	}
 

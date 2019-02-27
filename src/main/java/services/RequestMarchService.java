@@ -142,16 +142,6 @@ public class RequestMarchService {
 
 		result = this.requestMarchRepository.save(requestMarch);
 
-		final Collection<RequestMarch> requestsMarchProcession = procession.getRequestsMarch();
-		requestsMarchProcession.add(requestMarch);
-		procession.setRequestsMarch(requestsMarchProcession);
-		this.processionService.saveForRequestMarch(procession);
-
-		final Collection<RequestMarch> requestsMarchMember = memberLogged.getRequestsMarch();
-		requestsMarchMember.add(requestMarch);
-		memberLogged.setRequestsMarch(requestsMarchMember);
-		this.memberService.save(memberLogged);
-
 		return result;
 	}
 
@@ -226,15 +216,30 @@ public class RequestMarchService {
 		return result;
 	}
 
+	// R11.1 (para el caso de querer mostrar todas en una sola vista)
+	//	public Collection<RequestMarch> findRequestsMarchByMemberLogged() {
+	//		final Actor actorLogged = this.actorService.findActorLogged();
+	//		Assert.notNull(actorLogged);
+	//		this.actorService.checkUserLoginMember(actorLogged);
+	//
+	//		final Collection<RequestMarch> result;
+	//
+	//		result = this.requestMarchRepository.findRequestsMarchByMemberOrderByStatus(actorLogged.getId());
+	//		Assert.notNull(result);
+	//
+	//		return result;
+	//	}
+
 	// R11.1
-	public Collection<RequestMarch> findRequestsMarchByMemberLogged() {
+	public Collection<RequestMarch> findRequestsMarchByProcessionMember(final int processionId) {
 		final Actor actorLogged = this.actorService.findActorLogged();
 		Assert.notNull(actorLogged);
 		this.actorService.checkUserLoginMember(actorLogged);
 
 		final Collection<RequestMarch> result;
 
-		result = this.requestMarchRepository.findRequestsMarchByMemberOrderByStatus(actorLogged.getId());
+		result = this.requestMarchRepository.findRequestsMarchByProcessionMemberOrderByStatus(processionId, actorLogged.getId());
+
 		Assert.notNull(result);
 
 		return result;
@@ -246,6 +251,22 @@ public class RequestMarchService {
 		final Collection<RequestMarch> result;
 
 		result = this.requestMarchRepository.findRequestsMarchMemberId(memberId, brotherhoodId);
+
+		return result;
+	}
+
+	public boolean memberHasPendingOrApprovedRequestToProcession(final int processionId) {
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginMember(actorLogged);
+
+		final Member memberLogged = (Member) actorLogged;
+
+		final Collection<RequestMarch> requestsMarchPendingOrApproved = this.requestMarchRepository.findRequestMarchPendingOrApprovedByProcessionMember(processionId, memberLogged.getId());
+
+		boolean result = false;
+		if (requestsMarchPendingOrApproved.size() >= 1)
+			result = true;
 
 		return result;
 	}
@@ -263,12 +284,9 @@ public class RequestMarchService {
 			//Esto hay que verlo
 			result = requestMarch;
 		else {
-			result = this.requestMarchRepository.findOne(requestMarch.getId());
-			result.setPositionRow(requestMarch.getPositionRow());
-			result.setPositionColumn(requestMarch.getPositionColumn());
-			result.setStatus(requestMarch.getStatus());
-			if (requestMarch.getRejectReason() != null)
-				result.setRejectReason(requestMarch.getRejectReason());
+			final RequestMarch originalRequestMarch = this.requestMarchRepository.findOne(requestMarch.getId());
+			result = requestMarch;
+			result.setMember(originalRequestMarch.getMember());
 		}
 
 		this.validator.validate(result, binding);

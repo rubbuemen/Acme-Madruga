@@ -47,7 +47,3 @@
 <security:authorize access="hasRole('BROTHERHOOD')">
 	<acme:button url="enrolment/brotherhood/list.do" code="brotherhood.enroll" />
 </security:authorize>
-
-<security:authorize access="isAnonymous()">
-	<acme:button url="brotherhood/list.do" code="button.back" />
-</security:authorize>

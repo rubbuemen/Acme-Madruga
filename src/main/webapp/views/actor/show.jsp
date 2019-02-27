@@ -82,7 +82,7 @@
 		<acme:button url="enrolment/brotherhood/list.do" code="button.back" />
 	</jstl:when>
 	<jstl:otherwise>
-		<acme:button url="brotherhood/list.do" code="button.back" />
+		<acme:button url="brotherhood/listGeneric.do" code="button.back" />
 	</jstl:otherwise>
 </jstl:choose>
 

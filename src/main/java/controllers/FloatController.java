@@ -34,17 +34,17 @@ public class FloatController extends AbstractController {
 	BrotherhoodService	brotherhoodService;
 
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/listGeneric", method = RequestMethod.GET)
 	public ModelAndView listFloatsByBrotherhood(@RequestParam final int brotherhoodId) {
 		ModelAndView result;
 		Collection<Float> floats;
 
 		floats = this.floatService.findFloatsByBrotherhoodId(brotherhoodId);
 
-		result = new ModelAndView("float/list");
+		result = new ModelAndView("float/listGeneric");
 
 		result.addObject("floats", floats);
-		result.addObject("requestURI", "float/list.do");
+		result.addObject("requestURI", "float/listGeneric.do");
 
 		return result;
 	}

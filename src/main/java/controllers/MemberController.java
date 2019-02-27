@@ -55,17 +55,17 @@ public class MemberController extends AbstractController {
 	ActorService				actorService;
 
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/listGeneric", method = RequestMethod.GET)
 	public ModelAndView listMembersByBrotherhood(@RequestParam final int brotherhoodId) {
 		ModelAndView result;
 		Collection<Member> members;
 
 		members = this.memberService.findMembersByBrotherhoodId(brotherhoodId);
 
-		result = new ModelAndView("member/list");
+		result = new ModelAndView("member/listGeneric");
 
 		result.addObject("members", members);
-		result.addObject("requestURI", "members/list.do");
+		result.addObject("requestURI", "members/listGeneric.do");
 
 		return result;
 	}

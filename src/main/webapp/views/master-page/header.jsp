@@ -21,7 +21,7 @@
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->		
 		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv" href="brotherhood/list.do"><spring:message code="master.page.brotherhoods" /></a></li>
+			<li><a class="fNiv" href="brotherhood/listGeneric.do"><spring:message code="master.page.brotherhoods" /></a></li>
 			<li><a class="fNiv"><spring:message code="master.page.register" /></a>
 				<ul>
 					<li class="arrow"></li>
@@ -50,7 +50,7 @@
 				<a class="fNiv"><spring:message code="master.page.member" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="requestMarch/member/list.do"><spring:message code="master.page.requestsMarch" /></a></li>
+					<li><a href="brotherhood/member/list.do"><spring:message code="master.page.brotherhoods" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -61,13 +61,15 @@
 				<a class="fNiv"><spring:message code="master.page.admin" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="actor/administrator/register-administrator.do"><spring:message code="master.page.register.admin" /></a></li>	
+					<li><a href="actor/administrator/register-administrator.do"><spring:message code="master.page.register.admin" /></a></li>
+					<li><a href="positionBrotherhood/administrator/list.do"><spring:message code="master.page.positionsBrotherhood" /></a></li>	
+					<li><a href="dashboard/administrator/show.do"><spring:message code="master.page.dashboard" /></a></li>		
 				</ul>
 			</li>
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">
-		<li><a class="fNiv" href="brotherhood/list.do"><spring:message code="master.page.brotherhoods" /></a></li>
+		<li><a class="fNiv" href="brotherhood/listGeneric.do"><spring:message code="master.page.brotherhoods" /></a></li>
 			<li>
 				<a class="fNiv"> 
 					<spring:message code="master.page.profile" /> 

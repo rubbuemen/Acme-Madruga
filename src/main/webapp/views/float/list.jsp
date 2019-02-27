@@ -51,7 +51,3 @@
 <security:authorize access="hasRole('BROTHERHOOD')">
 	<acme:button url="float/brotherhood/create.do" code="button.create" />
 </security:authorize>
-
-<security:authorize access="isAnonymous()">
-	<acme:button url="brotherhood/list.do" code="button.back" />
-</security:authorize>

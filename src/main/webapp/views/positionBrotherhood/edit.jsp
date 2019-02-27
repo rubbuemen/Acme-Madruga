@@ -16,6 +16,27 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+<form:form action="${actionURL}" modelAttribute="positionBrotherhood">
+
+	<form:hidden path="id" />
+	<form:hidden path="version" />
+
+	<acme:textbox code="positionBrotherhood.nameEnglish" path="nameEnglish" placeholder="Lorem Ipsum"/>
+	<br />
+
+	<acme:textbox code="positionBrotherhood.nameSpanish" path="nameSpanish" placeholder="Lorem Ipsum"/>
+	<br />
+
+	<jstl:choose>
+		<jstl:when test="${positionBrotherhood.id == 0}">
+			<acme:submit name="save" code="button.register" />
+		</jstl:when>
+		<jstl:otherwise>
+			<acme:submit name="save" code="button.save" />
+		</jstl:otherwise>
+	</jstl:choose>
+	<acme:cancel url="positionBrotherhood/administrator/list.do" code="button.cancel" />
+
+</form:form>

@@ -21,24 +21,52 @@
 
 <display:table pagesize="5" class="displaytag" name="requestsMarch" requestURI="${requestURI}" id="row">
 
+	<security:authorize access="hasRole('MEMBER')">
+		<jstl:choose>
+		  <jstl:when test="${row.status eq 'PENDING'}">
+		  	<jstl:set var="color" value="grey"/>
+		  </jstl:when>
+		  <jstl:when test="${row.status eq 'APPROVED'}">
+		    <jstl:set var="color" value="green"/>
+		  </jstl:when>
+		  <jstl:when test="${row.status eq 'REJECTED'}">
+		    <jstl:set var="color" value="orange"/>
+		  </jstl:when>
+		  <jstl:otherwise>
+		    <jstl:set var="color" value="inherit"/>
+		  </jstl:otherwise>
+		</jstl:choose>
+	</security:authorize>
+
 	<spring:message code="requestMarch.status" var="status" />
-	<display:column property="status" title="${status}" />
+	<display:column property="status" title="${status}" style="background-color: ${color};" />
 	
-	<spring:message code="requestMarch.memberH" var="memberH" />
-	<display:column title="${memberH}">
-		<acme:button url="member/show.do?memberId=${row.member.id}" code="button.show" />
-	</display:column>
+	<security:authorize access="hasRole('BROTHERHOOD')">
+		<spring:message code="requestMarch.memberH" var="memberH" />
+		<display:column title="${memberH}">
+			<acme:button url="member/show.do?memberId=${row.member.id}" code="button.show" />
+		</display:column>
+		
+		<spring:message code="requestMarch.decideRequest" var="decideRequest" />
+		<display:column title="${decideRequest}">
+			<jstl:if test="${row.status eq 'PENDING'}">
+				<acme:button url="requestMarch/brotherhood/edit.do?requestMarchId=${row.id}&decision=APPROVED" code="button.approve" />
+				<acme:button url="requestMarch/brotherhood/edit.do?requestMarchId=${row.id}&decision=REJECTED" code="button.reject" />
+			</jstl:if>	
+		</display:column>
+	</security:authorize>
 	
-	<spring:message code="requestMarch.decideRequest" var="decideRequest" />
-	<display:column title="${decideRequest}">
-		<jstl:if test="${row.status eq 'PENDING'}">
-			<acme:button url="requestMarch/brotherhood/edit.do?requestMarchId=${row.id}&decision=APPROVED" code="button.approve" />
-			<acme:button url="requestMarch/brotherhood/edit.do?requestMarchId=${row.id}&decision=REJECTED" code="button.reject" />
-		</jstl:if>	
-	</display:column>
+	<security:authorize access="hasRole('MEMBER')">
+		<spring:message code="requestMarch.deleteRequest" var="deleteRequest" />
+		<display:column title="${deleteRequest}" style="background-color: ${color};">
+			<jstl:if test="${row.status eq 'PENDING'}">
+				<acme:button url="requestMarch/member/delete.do?processionId=${processionId}&requestMarchId=${row.id}" code="button.delete" />
+			</jstl:if>	
+		</display:column>
+	</security:authorize>
 		
 	<spring:message code="requestMarch.positionProcession" var="positionProcession" />
-	<display:column title="${positionProcession}">
+	<display:column title="${positionProcession}" style="background-color: ${color};">
 		<jstl:if test="${row.status eq 'APPROVED'}">
 			<spring:message code="requestMarch.positionRow"/>: <jstl:out value="${row.positionRow}" />
 			<spring:message code="requestMarch.positionColumn"/>:<jstl:out value="${row.positionColumn}" />
@@ -46,7 +74,7 @@
 	</display:column>
 	
 	<spring:message code="requestMarch.rejectReason" var="rejectReason" />
-	<display:column title="${rejectReason}">
+	<display:column title="${rejectReason}" style="background-color: ${color};">
 		<jstl:if test="${row.status eq 'REJECTED'}">
 			<jstl:out value="${row.rejectReason}" />
 		</jstl:if>	
@@ -54,4 +82,13 @@
 				
 </display:table>
 
-<acme:button url="procession/brotherhood/list.do" code="button.back" />
+<security:authorize access="hasRole('BROTHERHOOD')">
+	<acme:button url="procession/brotherhood/list.do" code="button.back" />
+</security:authorize>
+
+<security:authorize access="hasRole('MEMBER')">
+	<jstl:if test="${!hasPendingOrApprovedRequests}">
+		<acme:button url="requestMarch/member/create.do?processionId=${processionId}" code="button.create" />
+	</jstl:if>
+	<acme:button url="brotherhood/member/list.do" code="button.back" />
+</security:authorize>

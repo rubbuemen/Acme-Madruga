@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.PositionBrotherhoodRepository;
 import domain.Actor;
@@ -27,14 +29,20 @@ public class PositionBrotherhoodService {
 
 
 	// Simple CRUD methods
+	// R12.2
 	public PositionBrotherhood create() {
 		PositionBrotherhood result;
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginAdministrator(actorLogged);
 
 		result = new PositionBrotherhood();
 
 		return result;
 	}
 
+	// R12.2
 	public Collection<PositionBrotherhood> findAll() {
 		Collection<PositionBrotherhood> result;
 
@@ -55,13 +63,16 @@ public class PositionBrotherhoodService {
 		return result;
 	}
 
-	// R10.3: When a member is enrolled, a position must be selected
+	// R10.3: When a member is enrolled, a position must be selected, R12.2
 	public PositionBrotherhood save(final PositionBrotherhood positionBrotherhood) {
 		Assert.notNull(positionBrotherhood);
 
 		final Actor actorLogged = this.actorService.findActorLogged();
 		Assert.notNull(actorLogged);
-		this.actorService.checkUserLoginBrotherhood(actorLogged);
+		if (actorLogged instanceof Brotherhood)
+			this.actorService.checkUserLoginBrotherhood(actorLogged);
+		else
+			this.actorService.checkUserLoginAdministrator(actorLogged);
 
 		PositionBrotherhood result;
 
@@ -70,10 +81,14 @@ public class PositionBrotherhoodService {
 		return result;
 	}
 
+	// R12.2
 	public void delete(final PositionBrotherhood positionBrotherhood) {
 		Assert.notNull(positionBrotherhood);
 		Assert.isTrue(positionBrotherhood.getId() != 0);
 		Assert.isTrue(this.positionBrotherhoodRepository.exists(positionBrotherhood.getId()));
+
+		final Collection<PositionBrotherhood> positionBrotherhoodsUsed = this.positionBrotherhoodRepository.findPositionsBrotherhoodUsed();
+		Assert.isTrue(!positionBrotherhoodsUsed.contains(positionBrotherhood), "This position can not be deleted because it is in use");
 
 		this.positionBrotherhoodRepository.delete(positionBrotherhood);
 	}
@@ -96,6 +111,36 @@ public class PositionBrotherhoodService {
 		return result;
 	}
 
+	public Collection<PositionBrotherhood> findPositionsBrotherhoodUsed() {
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginAdministrator(actorLogged);
+
+		final Collection<PositionBrotherhood> result = this.positionBrotherhoodRepository.findPositionsBrotherhoodUsed();
+
+		return result;
+	}
+
+
 	// Reconstruct methods
+	@Autowired
+	private Validator	validator;
+
+
+	public PositionBrotherhood reconstruct(final PositionBrotherhood positionBrotherhood, final BindingResult binding) {
+		PositionBrotherhood result;
+
+		if (positionBrotherhood.getId() == 0)
+			result = positionBrotherhood;
+		else {
+			result = this.positionBrotherhoodRepository.findOne(positionBrotherhood.getId());
+			result.setNameEnglish(positionBrotherhood.getNameEnglish());
+			result.setNameSpanish(positionBrotherhood.getNameSpanish());
+		}
+
+		this.validator.validate(result, binding);
+
+		return result;
+	}
 
 }

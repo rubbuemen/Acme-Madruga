@@ -13,6 +13,9 @@ package controllers;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.Authority;
+import services.ActorService;
 import services.BrotherhoodService;
+import domain.Actor;
 import domain.Brotherhood;
+import domain.Member;
 
 @Controller
 @RequestMapping("/brotherhood")
@@ -30,18 +36,31 @@ public class BrotherhoodController extends AbstractController {
 	@Autowired
 	BrotherhoodService	brotherhoodService;
 
+	@Autowired
+	ActorService		actorService;
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/listGeneric", method = RequestMethod.GET)
 	public ModelAndView listBrotherhoods() {
 		ModelAndView result;
 		Collection<Brotherhood> brotherhoods;
+		Authentication authentication;
 
 		brotherhoods = this.brotherhoodService.findAll();
 
-		result = new ModelAndView("brotherhood/list");
+		result = new ModelAndView("brotherhood/listGeneric");
+
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			final Actor actorLogged = this.actorService.findActorLogged();
+			if (actorLogged instanceof Member) {
+				final Collection<Brotherhood> brotherhoodsMemberLogged = this.brotherhoodService.findBrotherhoodsAcceptedOrPendingByMemberId(actorLogged.getId());
+				result.addObject("brotherhoodsMemberLogged", brotherhoodsMemberLogged);
+			}
+		}
 
 		result.addObject("brotherhoods", brotherhoods);
-		result.addObject("requestURI", "brotherhood/list.do");
+		result.addObject("requestURI", "brotherhood/listGeneric.do");
 
 		return result;
 	}

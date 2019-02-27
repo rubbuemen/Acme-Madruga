@@ -34,17 +34,17 @@ public class ProcessionController extends AbstractController {
 	BrotherhoodService	brotherhoodService;
 
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/listGeneric", method = RequestMethod.GET)
 	public ModelAndView listProcessionsByBrotherhood(@RequestParam final int brotherhoodId) {
 		ModelAndView result;
 		Collection<Procession> processions;
 
 		processions = this.processionService.findProcessionsFinalModeByBrotherhoodId(brotherhoodId);
 
-		result = new ModelAndView("procession/list");
+		result = new ModelAndView("procession/listGeneric");
 
 		result.addObject("processions", processions);
-		result.addObject("requestURI", "processions/list.do");
+		result.addObject("requestURI", "processions/listGeneric.do");
 
 		return result;
 	}

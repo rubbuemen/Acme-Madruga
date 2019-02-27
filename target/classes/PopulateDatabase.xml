@@ -492,7 +492,7 @@
 		<property name="email" value="lapazsevilla@acmemadruga.com" />
 		<property name="phoneNumber" value="694039572" />
 		<property name="address" value="41005 Sevilla" />
-		<property name="title" value="La Paz" />
+		<property name="title" value="Divino Salvador" />
 		<property name="establishmentDate" value="2018/10/15" />
 		<property name="comments" value="This is a test comment." />
 		<property name="userAccount" ref="userAccount2" />
@@ -535,7 +535,7 @@
 		<property name="email" value="laborriquitasevilla@acmemadruga.com" />
 		<property name="phoneNumber" value="698369572" />
 		<property name="address" value="41005 Sevilla" />
-		<property name="title" value="La Borriquita" />
+		<property name="title" value="San Lorenzo" />
 		<property name="establishmentDate" value="2018/08/25" />
 		<property name="comments" value="This is a test comment." />
 		<property name="userAccount" ref="userAccount3" />
@@ -575,7 +575,7 @@
 		<property name="email" value="elsilenciosevilla@acmemadruga.com" />
 		<property name="phoneNumber" value="693058295" />
 		<property name="address" value="41005 Sevilla" />
-		<property name="title" value="El Silencio" />
+		<property name="title" value="San Roque" />
 		<property name="establishmentDate" value="2018/03/05" />
 		<property name="comments" value="This is a test comment." />
 		<property name="userAccount" ref="userAccount4" />
@@ -1107,8 +1107,9 @@
 		<property name="rejectReason" value="You are too young." />
 	</bean>
 	<bean id="requestMarch5" class="domain.RequestMarch">
-		<property name="status" value="PENDING" />
+		<property name="status" value="REJECTED" />
 		<property name="member" ref="member2" />
+		<property name="rejectReason" value="You are too young." />
 	</bean>
 	<bean id="requestMarch6" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />
@@ -1128,8 +1129,9 @@
 		<property name="rejectReason" value="You are too old." />
 	</bean>
 	<bean id="requestMarch9" class="domain.RequestMarch">
-		<property name="status" value="PENDING" />
+		<property name="status" value="REJECTED" />
 		<property name="member" ref="member3" />
+		<property name="rejectReason" value="You are too old." />
 	</bean>
 	<bean id="requestMarch10" class="domain.RequestMarch">
 		<property name="status" value="APPROVED" />

@@ -71,6 +71,14 @@
 			</jstl:if>	
 		</display:column>
 	</security:authorize>
+	
+	<security:authorize access="hasRole('MEMBER')">
+		<spring:message code="procession.requestsMarch" var="requestsMarchH" />
+		<display:column title="${requestsMarchH}">
+				<acme:button url="requestMarch/member/list.do?processionId=${row.id}" code="button.show" />
+		</display:column>
+	
+	</security:authorize>
 			
 </display:table>
 
@@ -78,6 +86,6 @@
 	<acme:button url="procession/brotherhood/create.do" code="button.create" />
 </security:authorize>
 
-<security:authorize access="isAnonymous()">
-	<acme:button url="brotherhood/list.do" code="button.back" />
+<security:authorize access="hasRole('MEMBER')">
+	<acme:button url="brotherhood/member/list.do" code="button.back" />
 </security:authorize>

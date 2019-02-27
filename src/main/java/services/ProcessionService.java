@@ -221,10 +221,6 @@ public class ProcessionService {
 	public Procession findProcessionByRequestMarchId(final int requestMarchId) {
 		Assert.isTrue(requestMarchId != 0);
 
-		final Actor actorLogged = this.actorService.findActorLogged();
-		Assert.notNull(actorLogged);
-		this.actorService.checkUserLoginBrotherhood(actorLogged);
-
 		Procession result;
 
 		result = this.processionRepository.findProcessionByRequestMarchId(requestMarchId);

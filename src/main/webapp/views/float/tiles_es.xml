@@ -24,5 +24,10 @@
 		<put-attribute name="title" value="Lista de pasos" />
 		<put-attribute name="body" value="/views/float/list.jsp" />
 	</definition>
+	
+	<definition name="float/listGeneric" extends="master.page">
+		<put-attribute name="title" value="Lista de pasos" />
+		<put-attribute name="body" value="/views/float/listGeneric.jsp" />
+	</definition>
 
 </tiles-definitions>

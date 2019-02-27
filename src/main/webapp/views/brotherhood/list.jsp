@@ -19,6 +19,9 @@
 
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<security:authorize access="hasRole('MEMBER')">
+	<h3><spring:message code="brotherhood.brotherhoodsBelongs" /></h3>
+</security:authorize>
 <display:table pagesize="5" class="displaytag" name="brotherhoods" requestURI="${requestURI}" id="row">
 	
 	<spring:message code="brotherhood.titleH" var="titleH" />
@@ -33,24 +36,37 @@
 	<spring:message code="brotherhood.commentsH" var="commentsH" />
 	<display:column property="comments" title="${commentsH}" />
 	
-	<spring:message code="brotherhood.membersH" var="membersH" />
-	<display:column title="${membersH}">
-		<acme:button url="member/list.do?brotherhoodId=${row.id}" code="button.show" />
-	</display:column>
-	
 	<spring:message code="brotherhood.processionsH" var="processionsH" />
 	<display:column title="${processionsH}">
-		<acme:button url="procession/list.do?brotherhoodId=${row.id}" code="button.show" />
+			<acme:button url="procession/member/list.do?brotherhoodId=${row.id}" code="button.show" />
 	</display:column>
 	
-	<spring:message code="brotherhood.floatsH" var="floatsH" />
-	<display:column title="${floatsH}">
-		<acme:button url="float/list.do?brotherhoodId=${row.id}" code="button.show" />
+	<spring:message code="member.remove" var="removeH" />
+	<display:column title="${removeH}">
+		<acme:button url="brotherhood/member/remove.do?brotherhoodId=${row.id}" code="button.remove" />
+	</display:column>
+</display:table>
+
+<security:authorize access="hasRole('MEMBER')">
+<h3><spring:message code="brotherhood.brotherhoodsNotBelongs" /></h3>
+<display:table pagesize="5" class="displaytag" name="brotherhoodsNotBelongs" requestURI="${requestURI}" id="row">
+	
+	<spring:message code="brotherhood.titleH" var="titleH" />
+	<display:column property="title" title="${titleH}" />
+	
+	<spring:message code="brotherhood.establishmentDateH" var="establishmentDateH" />
+	<display:column title="${establishmentDateH}">
+			<fmt:formatDate var="format" value="${row.establishmentDate}" pattern="dd/MM/YYYY" />
+			<jstl:out value="${format}" />
 	</display:column>
 	
-	<spring:message code="text.infoH" var="infoH" />
-	<display:column title="${infoH}">
-		<acme:button url="brotherhood/show.do?brotherhoodId=${row.id}" code="button.more" />
-	</display:column>
+	<spring:message code="brotherhood.commentsH" var="commentsH" />
+	<display:column property="comments" title="${commentsH}" />
+	
+	<spring:message code="text.enrolmentsH" var="enrolmentsH" />
+		<display:column title="${enrolmentsH}">
+			<acme:button url="enrolment/member/list.do?brotherhoodId=${row.id}" code="button.show" />
+		</display:column>
 	
 </display:table>
+</security:authorize>

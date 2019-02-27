@@ -173,6 +173,17 @@ public class MemberService {
 		return result;
 	}
 
+	public Collection<Member> findMembersByBrotherhoodIdAll(final int brotherhoodId) {
+		Assert.isTrue(brotherhoodId != 0);
+
+		Collection<Member> result;
+
+		result = this.memberRepository.findMembersByBrotherhoodIdAll(brotherhoodId);
+		Assert.notNull(result);
+
+		return result;
+	}
+
 
 	// Reconstruct methods
 	@Autowired

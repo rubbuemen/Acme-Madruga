@@ -13,8 +13,6 @@ package controllers.brotherhood;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -77,11 +75,11 @@ public class BrotherhoodRequestMarchController extends AbstractController {
 		return result;
 	}
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView createOrEdit(@Valid final RequestMarch requestMarch, final BindingResult binding) {
+	public ModelAndView createOrEdit(RequestMarch requestMarch, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			//			requestMarch = this.requestMarchService.reconstruct(requestMarch, binding);
+			requestMarch = this.requestMarchService.reconstruct(requestMarch, binding);
 			if (binding.hasErrors())
 				result = this.createEditModelAndView(requestMarch, requestMarch.getStatus());
 			else {

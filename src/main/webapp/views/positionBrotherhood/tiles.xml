@@ -10,13 +10,18 @@
 
 <tiles-definitions>
 
-	<definition name="positionBrotherhood/edit" extends="master.page">
-		<put-attribute name="title" value="welcome" />
+	<definition name="positionBrotherhood/create" extends="master.page">
+		<put-attribute name="title" value="Create a position of brotherhood" />
+		<put-attribute name="body" value="/views/positionBrotherhood/edit.jsp" />
+	</definition>
+	
+		<definition name="positionBrotherhood/edit" extends="master.page">
+		<put-attribute name="title" value="Edit a position of brotherhood" />
 		<put-attribute name="body" value="/views/positionBrotherhood/edit.jsp" />
 	</definition>
 
 	<definition name="positionBrotherhood/list" extends="master.page">
-		<put-attribute name="title" value="Welcome" />
+		<put-attribute name="title" value="Positions brotherhood list" />
 		<put-attribute name="body" value="/views/positionBrotherhood/list.jsp" />
 	</definition>
 
