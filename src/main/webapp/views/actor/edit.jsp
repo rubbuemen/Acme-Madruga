@@ -51,7 +51,7 @@
 	<acme:textbox code="actor.surname" path="actor.surname" placeholder="Lorem Ipsum" />
 	<br />
 
-	<acme:textbox code="actor.photo" path="actor.photo" placeholder="Lorem Ipsum" type="url" />
+	<acme:textbox code="actor.photo" path="actor.photo" placeholder="http://LoremIpsum.com" type="url" />
 	<jstl:if test="${not empty actorForm.actor.photo}">
 		<br />
 		<img src="<jstl:out value='${actorForm.actor.photo}' />" />
@@ -85,12 +85,13 @@
 		<br /><br />
 	</jstl:if>
 
+	<spring:message code="actor.confirm.phone" var="confirmPhone" />
 	<jstl:choose>
 		<jstl:when test="${actorForm.actor.id == 0}">
-			<acme:submit name="save" code="button.register" />
+			<acme:submit name="save" code="button.register" onclick="return checkPhone('${confirmPhone}');" />
 		</jstl:when>
 		<jstl:otherwise>
-			<acme:submit name="save" code="button.save" />
+			<acme:submit name="save" code="button.save" onclick="return checkPhone('${confirmPhone}');" />
 		</jstl:otherwise>
 	</jstl:choose>
 	<acme:cancel url="welcome/index.do" code="button.cancel" />

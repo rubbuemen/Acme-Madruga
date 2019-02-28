@@ -15,6 +15,7 @@ import repositories.BrotherhoodRepository;
 import security.Authority;
 import security.UserAccount;
 import domain.Actor;
+import domain.Area;
 import domain.Box;
 import domain.Brotherhood;
 import domain.Enrolment;
@@ -40,6 +41,9 @@ public class BrotherhoodService {
 
 	@Autowired
 	private MemberService			memberService;
+
+	@Autowired
+	private AreaService				areaService;
 
 
 	// Simple CRUD methods
@@ -216,6 +220,27 @@ public class BrotherhoodService {
 		Brotherhood result;
 		result = this.brotherhoodRepository.save(brotherhood);
 
+		return result;
+	}
+
+	// R20.1
+	public Brotherhood selectArea(final int areaId) {
+		Assert.isTrue(areaId != 0);
+
+		Brotherhood result;
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginBrotherhood(actorLogged);
+
+		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
+
+		Assert.isNull(brotherhoodLogged.getArea(), "You already have an assigned area");
+
+		final Area area = this.areaService.findOne(areaId);
+		brotherhoodLogged.setArea(area);
+
+		result = this.brotherhoodRepository.save(brotherhoodLogged);
 		return result;
 	}
 

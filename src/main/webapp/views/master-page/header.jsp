@@ -12,6 +12,7 @@
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div>
 	<a href="welcome/index.do"><img src="${bannerUrl}" alt="${nameSystem} Co., Inc." /></a>
@@ -41,6 +42,7 @@
 					<li><a href="procession/brotherhood/list.do"><spring:message code="master.page.processions" /></a></li>
 					<li><a href="member/brotherhood/list.do"><spring:message code="master.page.members" /></a></li>
 					<li><a href="enrolment/brotherhood/list.do"><spring:message code="master.page.enrolments" /></a></li>
+					<jstl:if test="${showArea eq true}"><li><a href="area/brotherhood/list.do"><spring:message code="master.page.selectArea" /></a></li></jstl:if>
 				</ul>
 			</li>
 		</security:authorize>
@@ -51,6 +53,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="brotherhood/member/list.do"><spring:message code="master.page.brotherhoods" /></a></li>
+					<li><a href="finder/member/edit.do"><spring:message code="master.page.finder" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -63,13 +66,16 @@
 					<li class="arrow"></li>
 					<li><a href="actor/administrator/register-administrator.do"><spring:message code="master.page.register.admin" /></a></li>
 					<li><a href="positionBrotherhood/administrator/list.do"><spring:message code="master.page.positionsBrotherhood" /></a></li>	
-					<li><a href="dashboard/administrator/show.do"><spring:message code="master.page.dashboard" /></a></li>		
+					<li><a href="area/administrator/list.do"><spring:message code="master.page.areas" /></a></li>	
+					<li><a href="dashboard/administrator/show.do"><spring:message code="master.page.dashboard" /></a></li>	
+					<li><a href="systemConfiguration/administrator/show.do"><spring:message code="master.page.systemConfiguration" /></a></li>	
 				</ul>
 			</li>
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">
 		<li><a class="fNiv" href="brotherhood/listGeneric.do"><spring:message code="master.page.brotherhoods" /></a></li>
+		<li><a class="fNiv" href="socialProfile/list.do"><spring:message code="master.page.socialProfiles" /></a></li>
 			<li>
 				<a class="fNiv"> 
 					<spring:message code="master.page.profile" /> 

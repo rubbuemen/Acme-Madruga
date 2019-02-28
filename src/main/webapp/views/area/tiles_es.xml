@@ -11,12 +11,22 @@
 <tiles-definitions>
 
 	<definition name="area/edit" extends="master.page">
-		<put-attribute name="title" value="¡Bienvenidos!" />
+		<put-attribute name="title" value="Editar área" />
+		<put-attribute name="body" value="/views/area/edit.jsp" />
+	</definition>
+	
+	<definition name="area/create" extends="master.page">
+		<put-attribute name="title" value="Crear área" />
 		<put-attribute name="body" value="/views/area/edit.jsp" />
 	</definition>
 
+	<definition name="area/select" extends="master.page">
+		<put-attribute name="title" value="Selecciona un área" />
+		<put-attribute name="body" value="/views/area/list.jsp" />
+	</definition>
+	
 	<definition name="area/list" extends="master.page">
-		<put-attribute name="title" value="¡Bienvenidos!" />
+		<put-attribute name="title" value="Lista de áreas" />
 		<put-attribute name="body" value="/views/area/list.jsp" />
 	</definition>
 

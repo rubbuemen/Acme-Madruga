@@ -1178,7 +1178,7 @@
 	</bean>
 	<bean id="socialProfile2" class="domain.SocialProfile">
 		<property name="nick" value="rubén-bueno-menéndez-b153b9b7" />
-		<property name="socialNetworkName" value="Facebook" />
+		<property name="socialNetworkName" value="Linkedin" />
 		<property name="profileLink"
 			value="https://www.linkedin.com/in/rub%C3%A9n-bueno-men%C3%A9ndez-b153b9b7/" />
 		<property name="actor" ref="administrator1" />
@@ -1240,7 +1240,7 @@
 				<value>viagra</value>
 				<value>cialis</value>
 				<value>one million</value>
-				<value>you’ve been selected</value>
+				<value>you've been selected</value>
 				<value>Nigeria</value>
 				<value>sexo</value>
 				<value>un millón</value>

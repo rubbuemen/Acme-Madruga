@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.AreaRepository;
+import domain.Actor;
 import domain.Area;
 
 @Service
@@ -19,8 +22,10 @@ public class AreaService {
 	@Autowired
 	private AreaRepository	areaRepository;
 
-
 	// Supporting services
+	@Autowired
+	private ActorService	actorService;
+
 
 	// Simple CRUD methods
 	public Area create() {
@@ -66,11 +71,43 @@ public class AreaService {
 		Assert.isTrue(area.getId() != 0);
 		Assert.isTrue(this.areaRepository.exists(area.getId()));
 
+		final Collection<Area> areasUsed = this.areaRepository.findAreasBrotherhoodUsed();
+		Assert.isTrue(!areasUsed.contains(area), "This position can not be deleted because it is in use");
+
 		this.areaRepository.delete(area);
 	}
 
 	// Other business methods
+	public Collection<Area> findAreasBrotherhoodUsed() {
+		final Actor actorLogged = this.actorService.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.actorService.checkUserLoginAdministrator(actorLogged);
+
+		final Collection<Area> result = this.areaRepository.findAreasBrotherhoodUsed();
+
+		return result;
+	}
+
 
 	// Reconstruct methods
+	@Autowired
+	private Validator	validator;
+
+
+	public Area reconstruct(final Area area, final BindingResult binding) {
+		Area result;
+
+		if (area.getId() == 0)
+			result = area;
+		else {
+			result = this.areaRepository.findOne(area.getId());
+			result.setName(area.getName());
+			result.setPictures(area.getPictures());
+		}
+
+		this.validator.validate(result, binding);
+
+		return result;
+	}
 
 }

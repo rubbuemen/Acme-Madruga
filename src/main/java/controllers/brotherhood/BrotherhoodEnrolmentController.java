@@ -90,7 +90,7 @@ public class BrotherhoodEnrolmentController extends AbstractController {
 				result = new ModelAndView("redirect:/enrolment/brotherhood/list.do");
 			}
 		} catch (final Throwable oops) {
-			if (oops.getMessage().equals("You can not enroll any member until you selected an area"))
+			if (oops.getMessage().equals("You can not enroll members until you selected an area"))
 				result = this.createEditModelAndView(enrolment, "enrolment.error.area");
 			else
 				result = this.createEditModelAndView(enrolment, "commit.error");

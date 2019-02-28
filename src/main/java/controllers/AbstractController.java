@@ -13,6 +13,9 @@ package controllers;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ClassUtils;
@@ -20,7 +23,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.SystemConfigurationService;
+import domain.Actor;
+import domain.Brotherhood;
 import domain.SystemConfiguration;
 
 @Controller
@@ -28,6 +34,9 @@ public class AbstractController {
 
 	@Autowired
 	SystemConfigurationService	systemConfigurationService;
+
+	@Autowired
+	ActorService				actorService;
 
 
 	// Panic handler ----------------------------------------------------------
@@ -57,6 +66,20 @@ public class AbstractController {
 			model.addAttribute("welcomeMessage", systemConfiguration.getWelcomeMessageEnglish());
 		else
 			model.addAttribute("welcomeMessage", systemConfiguration.getWelcomeMessageSpanish());
+
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			final Actor actorLogged = this.actorService.findActorLogged();
+			if (actorLogged instanceof Brotherhood) {
+				final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
+				boolean showArea = false;
+				if (brotherhoodLogged.getArea() == null) {
+					showArea = true;
+					model.addAttribute("showArea", showArea);
+				}
+
+			}
+		}
 
 	}
 

@@ -3,6 +3,7 @@ package services;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -248,6 +249,46 @@ public class ProcessionService {
 		Procession result;
 
 		result = this.processionRepository.save(procession);
+
+		return result;
+	}
+
+	public Collection<Procession> findProcessionsFinalMode() {
+		Collection<Procession> result;
+
+		result = this.processionRepository.findProcessionsFinalMode();
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Collection<Procession> findProcessionsFromFinder(final String keyWord, final Date minDate, final Date maxDate, final int areaId) {
+		final Collection<Procession> result = new HashSet<>();
+		Collection<Procession> findProcessionsFilterByKeyWord = new HashSet<>();
+		Collection<Procession> findProcessionsFilterDate = new HashSet<>();
+		Collection<Procession> findProcessionsFilterByAreaId = new HashSet<>();
+		final Calendar cal1 = Calendar.getInstance();
+		final Calendar cal2 = Calendar.getInstance();
+		cal1.setTime(minDate);
+		cal2.setTime(maxDate);
+
+		if (!keyWord.isEmpty())
+			findProcessionsFilterByKeyWord = this.processionRepository.findProcessionsFilterByKeyWord(keyWord);
+		if (cal1.get(Calendar.YEAR) != 1000 || cal2.get(Calendar.YEAR) != 3000)
+			findProcessionsFilterDate = this.processionRepository.findProcessionsFilterDate(minDate, maxDate);
+		if (areaId != 0)
+			findProcessionsFilterByAreaId = this.processionRepository.findProcessionsFilterByAreaId(areaId);
+
+		result.addAll(findProcessionsFilterByKeyWord);
+		result.addAll(findProcessionsFilterDate);
+		result.addAll(findProcessionsFilterByAreaId);
+
+		if (!keyWord.isEmpty())
+			result.retainAll(findProcessionsFilterByKeyWord);
+		if (cal1.get(Calendar.YEAR) != 1000 || cal2.get(Calendar.YEAR) != 3000)
+			result.retainAll(findProcessionsFilterDate);
+		if (areaId != 0)
+			result.retainAll(findProcessionsFilterByAreaId);
 
 		return result;
 	}

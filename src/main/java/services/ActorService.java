@@ -163,6 +163,14 @@ public class ActorService {
 	}
 
 	// Other business methods
+	public Actor findActorBySocialProfileId(final int socialProfileId) {
+		Assert.isTrue(socialProfileId != 0);
+
+		Actor result;
+
+		result = this.actorRepository.findActorBySocialProfileId(socialProfileId);
+		return result;
+	}
 
 	// Reconstruct methods
 

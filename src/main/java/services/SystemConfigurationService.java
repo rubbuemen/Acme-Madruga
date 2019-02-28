@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.SystemConfigurationRepository;
 import domain.Procession;
@@ -117,6 +119,31 @@ public class SystemConfigurationService {
 		return result;
 	}
 
+
 	// Reconstruct methods
+	@Autowired
+	private Validator	validator;
+
+
+	public SystemConfiguration reconstruct(final SystemConfiguration systemConfiguration, final BindingResult binding) {
+		SystemConfiguration result;
+
+		result = this.systemConfigurationRepository.findOne(systemConfiguration.getId());
+		result.setNameSystem(systemConfiguration.getNameSystem());
+		result.setBannerUrl(systemConfiguration.getBannerUrl());
+		result.setWelcomeMessageEnglish(systemConfiguration.getWelcomeMessageEnglish());
+		result.setWelcomeMessageSpanish(systemConfiguration.getWelcomeMessageSpanish());
+		result.setPhoneCountryCode(systemConfiguration.getPhoneCountryCode());
+		result.setPeriodFinder(systemConfiguration.getPeriodFinder());
+		result.setMaxResultsFinder(systemConfiguration.getMaxResultsFinder());
+		result.setPrioritiesMessagesList(systemConfiguration.getPrioritiesMessagesList());
+		result.setPositiveWords(systemConfiguration.getPositiveWords());
+		result.setNegativeWords(systemConfiguration.getNegativeWords());
+		result.setSpamWords(systemConfiguration.getSpamWords());
+
+		this.validator.validate(result, binding);
+
+		return result;
+	}
 
 }
