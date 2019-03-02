@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -67,7 +66,7 @@ public class Box extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToOne(optional = true, cascade = CascadeType.ALL)
+	@ManyToOne(optional = true)
 	public Box getParentBox() {
 		return this.parentBox;
 	}
@@ -78,7 +77,7 @@ public class Box extends DomainEntity {
 
 	@Valid
 	@EachNotNull
-	@OneToMany(mappedBy = "parentBox", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "parentBox")
 	public Collection<Box> getChildsBox() {
 		return this.childsBox;
 	}

@@ -56,7 +56,6 @@ public class AdministratorService {
 		userAccount.addAuthority(auth);
 		result.setBoxes(boxes);
 		result.setUserAccount(userAccount);
-		result.setIsSpammer(false);
 
 		return result;
 	}
@@ -216,7 +215,6 @@ public class AdministratorService {
 			userAccount.setPassword(administratorForm.getActor().getUserAccount().getPassword());
 			administrator.setBoxes(boxes);
 			administrator.setUserAccount(userAccount);
-			administrator.setIsSpammer(false);
 			administratorForm.setActor(administrator);
 		} else {
 			final Administrator res = this.administratorRepository.findOne(administrator.getId());

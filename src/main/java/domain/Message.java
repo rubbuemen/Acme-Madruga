@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -115,6 +116,7 @@ public class Message extends DomainEntity {
 		this.sender = sender;
 	}
 
+	@NotEmpty
 	@Valid
 	@EachNotNull
 	@ManyToMany

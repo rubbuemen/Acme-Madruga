@@ -7,6 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -111,7 +112,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.maxResultsFinder = maxResultsFinder;
 	}
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@NotEmpty
 	@EachNotBlank
 	public Collection<String> getPrioritiesMessagesList() {
@@ -122,7 +123,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.prioritiesMessagesList = prioritiesMessagesList;
 	}
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@NotEmpty
 	@EachNotBlank
 	public Collection<String> getPositiveWords() {
@@ -133,7 +134,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.positiveWords = positiveWords;
 	}
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@NotEmpty
 	@EachNotBlank
 	public Collection<String> getNegativeWords() {
@@ -144,7 +145,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.negativeWords = negativeWords;
 	}
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@NotEmpty
 	@EachNotBlank
 	public Collection<String> getSpamWords() {

@@ -266,6 +266,13 @@ public class BoxService {
 		return ac;
 	}
 
+	public Collection<Box> findBoxesByMessageId(final int messageId) {
+		Collection<Box> result;
+
+		result = this.boxRepository.findBoxesByMessageId(messageId);
+		return result;
+	}
+
 
 	// Reconstruct methods
 	@Autowired
@@ -293,4 +300,5 @@ public class BoxService {
 
 		return result;
 	}
+
 }

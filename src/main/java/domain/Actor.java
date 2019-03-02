@@ -37,6 +37,7 @@ public abstract class Actor extends DomainEntity {
 	private String	phoneNumber;
 	private String	address;
 	private Boolean	isSpammer;
+	private Double	polarityScore;
 
 
 	// Getters and Setters
@@ -107,13 +108,20 @@ public abstract class Actor extends DomainEntity {
 		this.address = address;
 	}
 
-	@NotNull
 	public Boolean getIsSpammer() {
 		return this.isSpammer;
 	}
 
 	public void setIsSpammer(final Boolean isSpammer) {
 		this.isSpammer = isSpammer;
+	}
+
+	public Double getPolarityScore() {
+		return this.polarityScore;
+	}
+
+	public void setPolarityScore(final Double polarityScore) {
+		this.polarityScore = polarityScore;
 	}
 
 

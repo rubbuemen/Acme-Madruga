@@ -54,5 +54,5 @@
 <acme:button url="box/create.do" code="button.createBox" />
 <acme:button url="message/create.do" code="button.sendMessage" />
 <security:authorize access="hasRole('ADMIN')">
-	<acme:button url="message/createBroadcast.do" code="button.sendBroadcast" />
+	<acme:button url="message/create.do?broadcast=true" code="button.sendBroadcast" />
 </security:authorize>

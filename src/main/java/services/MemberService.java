@@ -65,7 +65,6 @@ public class MemberService {
 		result.setBoxes(boxes);
 		result.setFinder(finder);
 		result.setUserAccount(userAccount);
-		result.setIsSpammer(false);
 
 		return result;
 	}
@@ -210,7 +209,6 @@ public class MemberService {
 			member.setBoxes(boxes);
 			member.setFinder(finder);
 			member.setUserAccount(userAccount);
-			member.setIsSpammer(false);
 			memberForm.setActor(member);
 		} else {
 			final Member res = this.memberRepository.findOne(member.getId());

@@ -28,7 +28,7 @@
 	<jstl:if test="${not empty systemConfiguration.bannerUrl}">
 		<spring:message code="systemConfiguration.bannerUrl" var="bannerUrl" />
 		<li><b>${bannerUrl}:</b> <jstl:out value="${systemConfiguration.bannerUrl}" /></li>
-		<img src="<jstl:out value='${systemConfiguration.bannerUrl}' />" />
+		<img src="<jstl:out value='${systemConfiguration.bannerUrl}' />" /><br /><br />
 	</jstl:if>
 	
 	<spring:message code="systemConfiguration.welcomeMessageEnglish" var="welcomeMessageEnglish" />
@@ -59,4 +59,6 @@
 	<li><b>${spamWords}:</b> <jstl:out value="${systemConfiguration.spamWords}" /></li>
 </ul>
 
-<acme:button url="systemConfiguration/administrator/edit.do" code="button.edit" />
+<acme:button url="systemConfiguration/administrator/edit.do" code="button.edit" /><br /><br />
+<acme:button url="systemConfiguration/administrator/computeSpammer.do" code="button.computeSpammer" />
+<acme:button url="systemConfiguration/administrator/computePolarityScore.do" code="button.computePolarityScore" />

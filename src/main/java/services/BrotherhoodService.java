@@ -66,7 +66,6 @@ public class BrotherhoodService {
 		result.setEnrolments(enrolments);
 		result.setBoxes(boxes);
 		result.setUserAccount(userAccount);
-		result.setIsSpammer(false);
 
 		return result;
 	}
@@ -270,7 +269,6 @@ public class BrotherhoodService {
 			brotherhood.setEnrolments(enrolments);
 			brotherhood.setBoxes(boxes);
 			brotherhood.setUserAccount(userAccount);
-			brotherhood.setIsSpammer(false);
 			brotherhoodForm.setActor(brotherhood);
 		} else {
 			final Brotherhood res = this.brotherhoodRepository.findOne(brotherhood.getId());

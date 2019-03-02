@@ -109,6 +109,17 @@ public class ActorService {
 
 		return result;
 	}
+
+	public Actor saveForComputes(final Actor actor) {
+		Assert.notNull(actor);
+
+		Actor result;
+
+		result = this.actorRepository.save(actor);
+
+		return result;
+	}
+
 	public void delete(final Actor actor) {
 		Assert.notNull(actor);
 		Assert.isTrue(actor.getId() != 0);
@@ -169,6 +180,18 @@ public class ActorService {
 		Actor result;
 
 		result = this.actorRepository.findActorBySocialProfileId(socialProfileId);
+		return result;
+	}
+
+	public Collection<Actor> findAllActorsExceptLogged() {
+		Collection<Actor> result;
+
+		final Actor actorLogged = this.findActorLogged();
+		final Actor systemActor = this.actorRepository.getSystemActor();
+		result = this.actorRepository.findAll();
+		result.remove(actorLogged);
+		result.remove(systemActor);
+
 		return result;
 	}
 

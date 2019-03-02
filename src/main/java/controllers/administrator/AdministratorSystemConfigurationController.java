@@ -80,6 +80,48 @@ public class AdministratorSystemConfigurationController extends AbstractControll
 		return result;
 	}
 
+	@RequestMapping(value = "/computeSpammer", method = RequestMethod.GET)
+	public ModelAndView computeSpammer() {
+		ModelAndView result;
+
+		SystemConfiguration systemConfiguration;
+		systemConfiguration = this.systemConfigurationService.getConfiguration();
+
+		try {
+			this.systemConfigurationService.computeSpammers();
+			result = new ModelAndView("systemConfiguration/show");
+			result.addObject("systemConfiguration", systemConfiguration);
+			result.addObject("message", "successful.action");
+		} catch (final Throwable oops) {
+			result = new ModelAndView("systemConfiguration/show");
+			result.addObject("systemConfiguration", systemConfiguration);
+			result.addObject("message", "commit.error");
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/computePolarityScore", method = RequestMethod.GET)
+	public ModelAndView computePolarityScore() {
+		ModelAndView result;
+
+		SystemConfiguration systemConfiguration;
+		systemConfiguration = this.systemConfigurationService.getConfiguration();
+
+		try {
+			this.systemConfigurationService.computePolarityScore();
+			result = new ModelAndView("systemConfiguration/show");
+			result.addObject("systemConfiguration", systemConfiguration);
+			result.addObject("message", "successful.action");
+		} catch (final Throwable oops) {
+			result = new ModelAndView("systemConfiguration/show");
+			result.addObject("systemConfiguration", systemConfiguration);
+			result.addObject("message", "commit.error");
+		}
+
+		return result;
+	}
+
 	// Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final SystemConfiguration systemConfiguration) {

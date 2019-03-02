@@ -16,6 +16,17 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+<display:table pagesize="5" class="displaytag" name="boxes" id="row" requestURI="message/move.do">
+	<spring:message code="box.name" var="name" />
+	<display:column property="name" title="${name}" />
+	
+	<spring:message code="message.move" var="move" />
+	<display:column title="${move}">
+		<acme:button url="message/saveMove.do?boxId=${row.id}&messageId=${messageEntity.id}" code="button.move" />
+	</display:column>
+	
+</display:table>
+
+<acme:cancel url="box/list.do" code="button.cancel" />
