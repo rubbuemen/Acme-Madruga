@@ -16,6 +16,29 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+<form:form action="${actionURL}" modelAttribute="box">
+
+	<form:hidden path="id" />
+	<form:hidden path="version" />
+	<input type="hidden" name="boxParentOld" value="${boxParentOld}" />
+
+	<acme:textbox code="box.name" path="name" placeholder="Lorem Ipsum"/>
+	<br />
+	
+	<acme:select items="${boxes}" itemLabel="name" code="box.parentBox" path="parentBox"/>
+	<br />
+
+	<jstl:choose>
+		<jstl:when test="${box.id == 0}">
+			<acme:submit name="save" code="button.create" />
+		</jstl:when>
+		<jstl:otherwise>
+			<acme:submit name="save" code="button.save" />
+		</jstl:otherwise>
+	</jstl:choose>
+	<acme:cancel url="box/list.do" code="button.cancel" />
+
+</form:form>
+ 

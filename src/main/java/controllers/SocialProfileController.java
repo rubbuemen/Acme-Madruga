@@ -119,6 +119,7 @@ public class SocialProfileController extends AbstractController {
 
 		return result;
 	}
+
 	// Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final SocialProfile socialProfile) {

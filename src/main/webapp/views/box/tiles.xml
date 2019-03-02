@@ -10,13 +10,18 @@
 
 <tiles-definitions>
 
+	<definition name="box/create" extends="master.page">
+		<put-attribute name="title" value="Create box" />
+		<put-attribute name="body" value="/views/box/edit.jsp" />
+	</definition>
+	
 	<definition name="box/edit" extends="master.page">
-		<put-attribute name="title" value="welcome" />
+		<put-attribute name="title" value="Edit box" />
 		<put-attribute name="body" value="/views/box/edit.jsp" />
 	</definition>
 
 	<definition name="box/list" extends="master.page">
-		<put-attribute name="title" value="Welcome" />
+		<put-attribute name="title" value="Boxes list" />
 		<put-attribute name="body" value="/views/box/list.jsp" />
 	</definition>
 

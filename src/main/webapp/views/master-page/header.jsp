@@ -76,6 +76,7 @@
 		<security:authorize access="isAuthenticated()">
 		<li><a class="fNiv" href="brotherhood/listGeneric.do"><spring:message code="master.page.brotherhoods" /></a></li>
 		<li><a class="fNiv" href="socialProfile/list.do"><spring:message code="master.page.socialProfiles" /></a></li>
+		<li><a class="fNiv" href="box/list.do"><spring:message code="master.page.boxes" /></a></li>
 			<li>
 				<a class="fNiv"> 
 					<spring:message code="master.page.profile" /> 

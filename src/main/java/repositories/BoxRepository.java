@@ -27,9 +27,12 @@ public interface BoxRepository extends JpaRepository<Box, Integer> {
 	@Query("select b from Actor a join a.boxes b where b.name LIKE 'Notification box' and a.id = ?1")
 	Box findNotificationBoxByActorId(int actorId);
 
-	@Query("select b from Actor a join a.boxes b where a.id = ?1")
-	Collection<Box> findAllBoxByActorId(int actorId);
+	@Query("select b from Actor a join a.boxes b where b.parentBox is null and a.id = ?1")
+	Collection<Box> findRootBoxesByActorId(int actorId);
 
 	@Query("select b from Actor a join a.boxes b join b.messages m where m.id = ?1 and a.id = ?2")
 	Box findBoxFromMessageIdActorLogged(int messageId, int actorId);
+
+	@Query("select b from Actor a join a.boxes b where a.id = ?1")
+	Collection<Box> findBoxesActorLogged(int actorId);
 }
