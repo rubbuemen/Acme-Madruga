@@ -47,4 +47,11 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 
 	@Query("select sum(case when f.processions.size = 0 then 1.0 else 0.0 end)/sum(case when f.processions.size > 0 then 1.0 else 0.0 end) from Finder f")
 	String dashboardQueryB3();
+
+	@Query("select sum(case when a.isSpammer = 1 then 1.0 else 0.0 end)/(select count(a1) from Actor a1)*100, sum(case when a.isSpammer = 0 or a.isSpammer is null then 1.0 else 0.0 end)/(select count(a1) from Actor a1)*100 from Actor a")
+	String dashboardQueryAPlus1();
+
+	@Query("select avg(b.polarityScore), avg(m.polarityScore), avg(a.polarityScore) from Brotherhood b, Member m, Administrator a")
+	Double[] dashboardQueryAPlus2();
+
 }

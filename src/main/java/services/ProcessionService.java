@@ -7,9 +7,11 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -21,6 +23,8 @@ import domain.Actor;
 import domain.Brotherhood;
 import domain.Finder;
 import domain.Float;
+import domain.Member;
+import domain.Message;
 import domain.Procession;
 import domain.RequestMarch;
 
@@ -41,6 +45,12 @@ public class ProcessionService {
 
 	@Autowired
 	private FinderService			finderService;
+
+	@Autowired
+	private MessageService			messageService;
+
+	@Autowired
+	private MemberService			memberService;
 
 
 	// Simple CRUD methods
@@ -119,6 +129,7 @@ public class ProcessionService {
 			processionsBrotherhoodLogged.add(result);
 			brotherhoodLogged.setProcessions(processionsBrotherhoodLogged);
 			this.brotherhoodService.save(brotherhoodLogged);
+
 		} else {
 			final Brotherhood brotherhoodOwner = this.brotherhoodService.findBrotherhoodByProcessionId(procession.getId());
 			Assert.isTrue(actorLogged.equals(brotherhoodOwner), "The logged actor is not the owner of this entity");
@@ -240,6 +251,32 @@ public class ProcessionService {
 		procession.setIsFinalMode(true);
 
 		result = this.processionRepository.save(procession);
+
+		// R32
+		final Message message = this.messageService.create();
+		final Collection<Member> members = this.memberService.findMembersByBrotherhoodLogged();
+
+		final Actor actorLogged = this.actorService.findActorLogged();
+		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
+
+		final Locale locale = LocaleContextHolder.getLocale();
+		if (locale.getLanguage().equals("es")) {
+			message.setSubject("Una nueva procesión ha sido publicada");
+			message.setBody("La hermandad " + brotherhoodLogged.getTitle() + " ha publicado la procesión " + result.getTitle());
+		} else {
+			message.setSubject("A new procession has been published");
+			message.setBody("The brotherhood " + brotherhoodLogged.getTitle() + " has published the procession " + result.getTitle());
+		}
+
+		final Actor sender = this.actorService.getSystemActor();
+		message.setPriority("HIGH");
+		message.setSender(sender);
+
+		final Collection<Actor> recipients = new HashSet<>();
+		recipients.addAll(members);
+		message.setRecipients(recipients);
+		this.messageService.save(message, true);
+
 		return result;
 	}
 

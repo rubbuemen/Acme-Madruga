@@ -193,6 +193,22 @@ public class AdministratorService {
 		return result;
 	}
 
+	public String dashboardQueryAPlus1() {
+		String result;
+
+		result = this.administratorRepository.dashboardQueryAPlus1();
+
+		return result;
+	}
+
+	public Double[] dashboardQueryAPlus2() {
+		Double[] result;
+
+		result = this.administratorRepository.dashboardQueryAPlus2();
+
+		return result;
+	}
+
 
 	// Other business methods
 

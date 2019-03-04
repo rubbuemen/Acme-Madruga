@@ -63,8 +63,6 @@ public class UserAccountService {
 
 		UserAccount result;
 
-		Assert.isTrue(userAccount.isEnabled());
-
 		if (userAccount.getId() == 0) {
 			final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 			String password = userAccount.getPassword();

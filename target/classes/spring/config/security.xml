@@ -42,6 +42,7 @@
 		<security:intercept-url pattern="/member/show.do"	access="permitAll" />
 		<security:intercept-url pattern="/procession/listGeneric.do"	access="permitAll" />
 		<security:intercept-url pattern="/float/listGeneric.do"	access="permitAll" />
+		<security:intercept-url pattern="/welcome/legal.do" access="permitAll"/>
 
 		<security:intercept-url pattern="/actor/register-brotherhood.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/actor/register-member.do" access="isAnonymous()" />

@@ -400,6 +400,7 @@
 		<property name="messages">
 			<list>
 				<ref bean="message2" />
+				<ref bean="message7" />
 			</list>
 		</property>
 	</bean>
@@ -418,6 +419,11 @@
 	<bean id="box35" class="domain.Box">
 		<property name="name" value="In box" />
 		<property name="isSystemBox" value="true" />
+		<property name="messages">
+			<list>
+				<ref bean="message7" />
+			</list>
+		</property>
 	</bean>
 	<bean id="box36" class="domain.Box">
 		<property name="name" value="Out box" />
@@ -1004,6 +1010,19 @@
 		<property name="recipients">
 			<list>
 				<ref bean="member1" />
+			</list>
+		</property>
+	</bean>
+	<bean id="message7" class="domain.Message">
+		<property name="moment" value="2019/01/22 14:25" />
+		<property name="subject" value="ITS POSITIVE WORDS good good good" />
+		<property name="body" value="good fantastic excellent great amazing terrific beautiful" />
+		<property name="priority" value="HIGH" />
+		<property name="flagSpam" value="false" />
+		<property name="sender" ref="member1" />
+		<property name="recipients">
+			<list>
+				<ref bean="member2" />
 			</list>
 		</property>
 	</bean>

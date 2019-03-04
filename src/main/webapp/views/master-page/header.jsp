@@ -69,6 +69,7 @@
 					<li><a href="area/administrator/list.do"><spring:message code="master.page.areas" /></a></li>	
 					<li><a href="dashboard/administrator/show.do"><spring:message code="master.page.dashboard" /></a></li>	
 					<li><a href="systemConfiguration/administrator/show.do"><spring:message code="master.page.systemConfiguration" /></a></li>	
+					<li><a href="systemConfiguration/administrator/actorsList.do"><spring:message code="master.page.actorsList" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

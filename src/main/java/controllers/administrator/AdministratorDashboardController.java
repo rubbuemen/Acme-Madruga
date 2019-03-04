@@ -10,6 +10,7 @@
 
 package controllers.administrator;
 
+import java.text.DecimalFormat;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,9 +87,9 @@ public class AdministratorDashboardController extends AbstractController {
 		final String[] queryB1 = this.administratorService.dashboardQueryB1().split(",");
 		final String ratioQueryB1 = queryB1[0];
 		final String countQueryB1 = queryB1[1];
-		final String avgQueryB1 = queryB1[2];
-		final String minQueryB1 = queryB1[3];
-		final String maxQueryB1 = queryB1[4];
+		final String minQueryB1 = queryB1[2];
+		final String maxQueryB1 = queryB1[3];
+		final String avgQueryB1 = queryB1[4];
 		final String stddevQueryB1 = queryB1[5];
 		result.addObject("ratioQueryB1", ratioQueryB1);
 		result.addObject("countQueryB1", countQueryB1);
@@ -111,6 +112,23 @@ public class AdministratorDashboardController extends AbstractController {
 		//Query B3
 		final String ratioQueryB3 = this.administratorService.dashboardQueryB3();
 		result.addObject("ratioQueryB3", ratioQueryB3);
+
+		//Query A+1
+		final String[] queryAPlus1 = this.administratorService.dashboardQueryAPlus1().split(",");
+		final String percentageSpammersQueryAplus1 = queryAPlus1[0];
+		final String percentageNotSpammersQueryAplus1 = queryAPlus1[1];
+		result.addObject("percentageSpammersQueryAplus1", percentageSpammersQueryAplus1);
+		result.addObject("percentageNotSpammersQueryAplus1", percentageNotSpammersQueryAplus1);
+
+		//Query A+2
+		final DecimalFormat formatDecimals = new DecimalFormat(".##");
+		final Double[] queryAPlus2 = this.administratorService.dashboardQueryAPlus2();
+		final Double avgPolarityBrotherhoodsQueryAplus2 = Double.valueOf(formatDecimals.format(queryAPlus2[0] + 1));
+		final Double avgPolarityMembersQueryAplus2 = Double.valueOf(formatDecimals.format(queryAPlus2[1] + 1));
+		final Double avgPolarityAdministratorsQueryAplus2 = Double.valueOf(formatDecimals.format(queryAPlus2[2] + 1));
+		result.addObject("avgPolarityBrotherhoodsQueryAplus2", avgPolarityBrotherhoodsQueryAplus2);
+		result.addObject("avgPolarityMembersQueryAplus2", avgPolarityMembersQueryAplus2);
+		result.addObject("avgPolarityAdministratorsQueryAplus2", avgPolarityAdministratorsQueryAplus2);
 
 		return result;
 	}

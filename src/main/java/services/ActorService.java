@@ -195,6 +195,48 @@ public class ActorService {
 		return result;
 	}
 
+	public Collection<Actor> findActorsToBan() {
+		final Actor actorLogged = this.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.checkUserLoginAdministrator(actorLogged);
+
+		Collection<Actor> result;
+
+		result = this.actorRepository.findActorsToBan();
+		return result;
+	}
+
+	public Collection<Actor> findActorsBanned() {
+		final Actor actorLogged = this.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.checkUserLoginAdministrator(actorLogged);
+
+		Collection<Actor> result;
+
+		result = this.actorRepository.findActorsBanned();
+		return result;
+	}
+
+	public void banActor(final Actor actor) {
+		final Actor actorLogged = this.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.checkUserLoginAdministrator(actorLogged);
+
+		final UserAccount userAccount = actor.getUserAccount();
+		userAccount.setStatusAccount(false);
+		this.userAccountService.save(userAccount);
+	}
+
+	public void unbanActor(final Actor actor) {
+		final Actor actorLogged = this.findActorLogged();
+		Assert.notNull(actorLogged);
+		this.checkUserLoginAdministrator(actorLogged);
+
+		final UserAccount userAccount = actor.getUserAccount();
+		userAccount.setStatusAccount(true);
+		this.userAccountService.save(userAccount);
+	}
+
 	// Reconstruct methods
 
 }

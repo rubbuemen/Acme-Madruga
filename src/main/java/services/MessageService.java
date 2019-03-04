@@ -84,9 +84,6 @@ public class MessageService {
 		final Actor actorLogged = this.actorService.findActorLogged();
 		Assert.notNull(actorLogged);
 
-		final Actor sender = message.getSender();
-		Assert.isTrue(sender.equals(actorLogged), "The logged actor is not the owner of this entity");
-
 		// R26
 		final Collection<String> spamWords = this.systemConfigurationService.getConfiguration().getSpamWords();
 		for (final String sw : spamWords) {

@@ -64,6 +64,40 @@
 		<li><b>${comments}:</b> <jstl:out value="${actor.comments}" /></li>
 	</jstl:if>
 	
+	<security:authorize access="hasRole('ADMIN')">
+		<spring:message code="actor.isSpammer" var="isSpammer" />
+		<li>
+		<b>${isSpammer}: </b>
+		<jstl:choose>
+			<jstl:when test="${actor.isSpammer == true}">
+				<spring:message code="actor.yes" var="yes"/>
+				<jstl:out value="${yes}" />
+			</jstl:when>
+			<jstl:when test="${actor.isSpammer == false}">
+				<spring:message code="actor.no" var="no"/>
+				<jstl:out value="${no}" />
+			</jstl:when>
+			<jstl:otherwise>
+			N/A
+			</jstl:otherwise>
+		</jstl:choose>
+		</li>
+		
+		<spring:message code="actor.polarityScore" var="polarityScore" />
+		<li>
+		<b>${polarityScore}: </b>
+		<jstl:choose>
+			<jstl:when test="${actor.polarityScore != null}">
+				<spring:message code="actor.polarityScore" var="polarityScore"/>
+				<jstl:out value="${actor.polarityScore}" />
+			</jstl:when>
+			<jstl:otherwise>
+			N/A
+			</jstl:otherwise>
+		</jstl:choose>
+		</li>
+	</security:authorize>
+	
 	<jstl:if test="${authority == 'MEMBER'}">
 		<spring:message code="member.positionBrotherhood" var="positionBrotherhoodH" />
 		<li><b>${positionBrotherhoodH}:</b> <jstl:out value="${positionBrotherhood}" /></li>

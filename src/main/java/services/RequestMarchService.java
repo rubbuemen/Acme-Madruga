@@ -2,8 +2,11 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -14,6 +17,7 @@ import repositories.RequestMarchRepository;
 import domain.Actor;
 import domain.Brotherhood;
 import domain.Member;
+import domain.Message;
 import domain.Procession;
 import domain.RequestMarch;
 
@@ -37,6 +41,9 @@ public class RequestMarchService {
 
 	@Autowired
 	private MemberService			memberService;
+
+	@Autowired
+	private MessageService			messageService;
 
 
 	// Simple CRUD methods
@@ -113,6 +120,29 @@ public class RequestMarchService {
 		}
 
 		result = this.requestMarchRepository.save(requestMarch);
+
+		// R32
+		final Message message = this.messageService.create();
+		final Procession procession = this.processionService.findProcessionByRequestMarchId(result.getId());
+
+		final Locale locale = LocaleContextHolder.getLocale();
+		if (locale.getLanguage().equals("es")) {
+			message.setSubject("Su petición para marchar ha cambiado de estado");
+			message.setBody("La petición para marchar en " + procession.getTitle() + " ha cambiado de estado.");
+		} else {
+			message.setSubject("Your request to march has changed state");
+			message.setBody("The request to march to " + procession.getTitle() + " has changed its status.");
+		}
+
+		final Actor sender = this.actorService.getSystemActor();
+		message.setPriority("HIGH");
+		message.setSender(sender);
+
+		final Member memberOwner = result.getMember();
+		final Collection<Actor> recipients = new HashSet<>();
+		recipients.add(memberOwner);
+		message.setRecipients(recipients);
+		this.messageService.save(message, true);
 
 		return result;
 	}

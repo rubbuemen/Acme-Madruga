@@ -3,8 +3,11 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -16,6 +19,7 @@ import domain.Actor;
 import domain.Brotherhood;
 import domain.Enrolment;
 import domain.Member;
+import domain.Message;
 import domain.PositionBrotherhood;
 import domain.Procession;
 import domain.RequestMarch;
@@ -46,6 +50,9 @@ public class EnrolmentService {
 
 	@Autowired
 	private ProcessionService			processionService;
+
+	@Autowired
+	private MessageService				messageService;
 
 
 	// Simple CRUD methods
@@ -112,6 +119,29 @@ public class EnrolmentService {
 
 		result = this.enrolmentRepository.save(enrolment);
 
+		// R32
+		final Message message = this.messageService.create();
+		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
+
+		final Locale locale = LocaleContextHolder.getLocale();
+		if (locale.getLanguage().equals("es")) {
+			message.setSubject("Su petición para inscribirse a la hermandad ha sido aceptada");
+			message.setBody("La petición incribirse a " + brotherhoodLogged.getTitle() + " ha sido aceptada.");
+		} else {
+			message.setSubject("Your request to join the brotherhood has been accepted");
+			message.setBody("The request to enroll " + brotherhoodLogged.getTitle() + " has been accepted.");
+		}
+
+		final Actor sender = this.actorService.getSystemActor();
+		message.setPriority("HIGH");
+		message.setSender(sender);
+
+		final Member memberOwner = result.getMember();
+		final Collection<Actor> recipients = new HashSet<>();
+		recipients.add(memberOwner);
+		message.setRecipients(recipients);
+		this.messageService.save(message, true);
+
 		return result;
 	}
 
@@ -162,18 +192,18 @@ public class EnrolmentService {
 	public void removeMemberOfBrotherhood(final int memberId) {
 		Enrolment result;
 
-		final Actor brotherhoodLogged = this.actorService.findActorLogged();
+		final Actor actorLogged = this.actorService.findActorLogged();
 
 		result = this.findEnrolmentMemberBrotherhoodLogged(memberId);
 
-		final Collection<RequestMarch> requestsMarchMemberBrotherhoodLogged = this.requestMarchService.findRequestsMarchMemberId(memberId, brotherhoodLogged.getId());
+		final Collection<RequestMarch> requestsMarchMemberBrotherhoodLogged = this.requestMarchService.findRequestsMarchMemberId(memberId, actorLogged.getId());
 
-		final Member memberLogged = (Member) this.actorService.findOne(memberId);
-		final Collection<RequestMarch> requestsMember = memberLogged.getRequestsMarch();
+		final Member member = (Member) this.actorService.findOne(memberId);
+		final Collection<RequestMarch> requestsMember = member.getRequestsMarch();
 
 		requestsMember.removeAll(requestsMarchMemberBrotherhoodLogged);
-		memberLogged.setRequestsMarch(requestsMarchMemberBrotherhoodLogged);
-		this.memberService.saveAuxiliar(memberLogged);
+		member.setRequestsMarch(requestsMarchMemberBrotherhoodLogged);
+		this.memberService.saveAuxiliar(member);
 		for (final RequestMarch rm : requestsMarchMemberBrotherhoodLogged) {
 			final Procession pro = this.processionService.findProcessionByRequestMarchId(rm.getId());
 			final Collection<RequestMarch> requests = pro.getRequestsMarch();
@@ -186,7 +216,31 @@ public class EnrolmentService {
 		final Date momentDropOut = new Date(System.currentTimeMillis() - 1);
 		result.setMomentDropOut(momentDropOut);
 
-		this.enrolmentRepository.save(result);
+		result = this.enrolmentRepository.save(result);
+
+		// R32
+		final Message message = this.messageService.create();
+		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
+
+		final Locale locale = LocaleContextHolder.getLocale();
+		if (locale.getLanguage().equals("es")) {
+			message.setSubject("Usted ha sido expulsado de la hermandad");
+			message.setBody("Ha sido expulsado de la hermandad " + brotherhoodLogged.getTitle() + ".");
+		} else {
+			message.setSubject("You have been dropped out from the brotherhood");
+			message.setBody("You have been dropped out from the brotherhood " + brotherhoodLogged.getTitle() + ".");
+		}
+
+		final Actor sender = this.actorService.getSystemActor();
+		message.setPriority("HIGH");
+		message.setSender(sender);
+
+		final Member memberOwner = result.getMember();
+		final Collection<Actor> recipients = new HashSet<>();
+		recipients.add(memberOwner);
+		message.setRecipients(recipients);
+		this.messageService.save(message, true);
+
 	}
 
 	// R11.2
@@ -216,7 +270,29 @@ public class EnrolmentService {
 		final Date momentDropOut = new Date(System.currentTimeMillis() - 1);
 		result.setMomentDropOut(momentDropOut);
 
-		this.enrolmentRepository.save(result);
+		result = this.enrolmentRepository.save(result);
+
+		// R32
+		final Message message = this.messageService.create();
+
+		final Locale locale = LocaleContextHolder.getLocale();
+		if (locale.getLanguage().equals("es")) {
+			message.setSubject("Un miembro dejó su hermandad");
+			message.setBody("El miembro " + memberLogged.getName() + " " + memberLogged.getSurname() + " ha dejado la hermandad.");
+		} else {
+			message.setSubject("A member dropped out its brotherhood");
+			message.setBody("The member " + memberLogged.getName() + " " + memberLogged.getSurname() + " has dropped out the brotherhood.");
+		}
+
+		final Actor sender = this.actorService.getSystemActor();
+		message.setPriority("HIGH");
+		message.setSender(sender);
+
+		final Brotherhood brotherhoodOwner = result.getBrotherhood();
+		final Collection<Actor> recipients = new HashSet<>();
+		recipients.add(brotherhoodOwner);
+		message.setRecipients(recipients);
+		this.messageService.save(message, true);
 	}
 
 	public Enrolment findEnrolmentMemberBrotherhoodLogged(final int memberId) {
