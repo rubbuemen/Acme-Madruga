@@ -123,9 +123,16 @@ public class AdministratorDashboardController extends AbstractController {
 		//Query A+2
 		final DecimalFormat formatDecimals = new DecimalFormat(".##");
 		final Double[] queryAPlus2 = this.administratorService.dashboardQueryAPlus2();
-		final Double avgPolarityBrotherhoodsQueryAplus2 = Double.valueOf(formatDecimals.format(queryAPlus2[0] + 1));
-		final Double avgPolarityMembersQueryAplus2 = Double.valueOf(formatDecimals.format(queryAPlus2[1] + 1));
-		final Double avgPolarityAdministratorsQueryAplus2 = Double.valueOf(formatDecimals.format(queryAPlus2[2] + 1));
+		Double avgPolarityBrotherhoodsQueryAplus2 = null;
+		Double avgPolarityMembersQueryAplus2 = null;
+		Double avgPolarityAdministratorsQueryAplus2 = null;
+		if (queryAPlus2[0] != null)
+			avgPolarityBrotherhoodsQueryAplus2 = Double.valueOf(formatDecimals.format(queryAPlus2[0] + 1));
+		if (queryAPlus2[1] != null)
+			avgPolarityMembersQueryAplus2 = Double.valueOf(formatDecimals.format(queryAPlus2[1] + 1));
+		if (queryAPlus2[2] != null)
+			avgPolarityAdministratorsQueryAplus2 = Double.valueOf(formatDecimals.format(queryAPlus2[2] + 1));
+
 		result.addObject("avgPolarityBrotherhoodsQueryAplus2", avgPolarityBrotherhoodsQueryAplus2);
 		result.addObject("avgPolarityMembersQueryAplus2", avgPolarityMembersQueryAplus2);
 		result.addObject("avgPolarityAdministratorsQueryAplus2", avgPolarityAdministratorsQueryAplus2);
