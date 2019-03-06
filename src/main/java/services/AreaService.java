@@ -101,6 +101,7 @@ public class AreaService {
 			result = area;
 		else {
 			result = this.areaRepository.findOne(area.getId());
+			Assert.notNull(result, "This entity does not exist");
 			result.setName(area.getName());
 			result.setPictures(area.getPictures());
 		}

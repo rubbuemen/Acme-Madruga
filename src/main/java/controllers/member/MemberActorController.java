@@ -70,7 +70,12 @@ public class MemberActorController extends AbstractController {
 			}
 
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
+			if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(actorForm.getActor(), "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
+			else
+				result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
 		}
 
 		return result;
@@ -86,7 +91,11 @@ public class MemberActorController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Actor actor, final String message) {
 		ModelAndView result;
-		result = new ModelAndView("actor/edit");
+		if (actor == null)
+			result = new ModelAndView("redirect:/welcome/index.do");
+		else
+			result = new ModelAndView("actor/edit");
+
 		result.addObject("actor", actor);
 		result.addObject("message", message);
 

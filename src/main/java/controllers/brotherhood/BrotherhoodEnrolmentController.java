@@ -92,6 +92,12 @@ public class BrotherhoodEnrolmentController extends AbstractController {
 		} catch (final Throwable oops) {
 			if (oops.getMessage().equals("You can not enroll members until you selected an area"))
 				result = this.createEditModelAndView(enrolment, "enrolment.error.area");
+			else if (oops.getMessage().equals("You must select a position"))
+				result = this.createEditModelAndView(enrolment, "enrolment.error.selectPosition");
+			else if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(enrolment, "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
 			else
 				result = this.createEditModelAndView(enrolment, "commit.error");
 

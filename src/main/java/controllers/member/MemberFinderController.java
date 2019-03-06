@@ -93,7 +93,12 @@ public class MemberFinderController extends AbstractController {
 				result = new ModelAndView("redirect:/finder/member/edit.do");
 			}
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(finder, "commit.error");
+			if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(finder, "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
+			else
+				result = this.createEditModelAndView(finder, "commit.error");
 		}
 
 		return result;
@@ -111,14 +116,15 @@ public class MemberFinderController extends AbstractController {
 
 		if (finder == null)
 			result = new ModelAndView("redirect:/welcome/index.do");
-		else
+		else {
 			result = new ModelAndView("finder/edit");
+			result.addObject("processions", finder.getProcessions());
+		}
 
 		final Collection<Area> areas = this.areaService.findAll();
 
 		result.addObject("finder", finder);
 		result.addObject("areas", areas);
-		result.addObject("processions", finder.getProcessions());
 		result.addObject("actionURL", "finder/member/edit.do");
 		result.addObject("message", message);
 

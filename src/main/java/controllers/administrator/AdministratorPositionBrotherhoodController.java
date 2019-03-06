@@ -98,6 +98,10 @@ public class AdministratorPositionBrotherhoodController extends AbstractControll
 		} catch (final Throwable oops) {
 			if (oops.getMessage().equals("could not execute statement; SQL [n/a]; constraint [null]" + "; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement"))
 				result = this.createEditModelAndView(positionBrotherhood, "positionBrotherhood.error.duplicate.name");
+			else if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(positionBrotherhood, "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
 			else
 				result = this.createEditModelAndView(positionBrotherhood, "commit.error");
 

@@ -69,7 +69,7 @@
 	<display:column title="${positionProcession}" style="background-color: ${color};">
 		<jstl:if test="${row.status eq 'APPROVED'}">
 			<spring:message code="requestMarch.positionRow"/>: <jstl:out value="${row.positionRow}" />
-			<spring:message code="requestMarch.positionColumn"/>:<jstl:out value="${row.positionColumn}" />
+			<spring:message code="requestMarch.positionColumn"/>: <jstl:out value="${row.positionColumn}" />
 		</jstl:if>	
 	</display:column>
 	

@@ -118,13 +118,24 @@ public class SystemConfigurationService {
 				position[r][c] = true;
 			}
 
-		breakloop: for (int r = 0; r < position.length; r++)
-			for (int c = 0; c < position[r].length; c++)
-				if (position[r][c] == false) {
-					suggestedRow = r;
-					suggestedColumn = c;
-					break breakloop;
-				}
+		if (procession.getMaxRows() > procession.getMaxColumns()) {
+			breakloop: for (int r = 0; r < position.length; r++)
+				for (int c = 0; c < position[r].length; c++)
+					if (position[r][c] == false) {
+						suggestedRow = r;
+						suggestedColumn = c;
+						break breakloop;
+					}
+		} else{
+			breakloop: for (int c = 0; c < position.length; c++)
+				for (int r = 0; r < position[c].length; r++)
+					if (position[r][c] == false) {
+						suggestedRow = r;
+						suggestedColumn = c;
+						break breakloop;
+					}
+		}
+		
 
 		result.put(suggestedRow + 1, suggestedColumn + 1);
 
@@ -302,6 +313,7 @@ public class SystemConfigurationService {
 		SystemConfiguration result;
 
 		result = this.systemConfigurationRepository.findOne(systemConfiguration.getId());
+		Assert.notNull(result, "This entity does not exist");
 		result.setNameSystem(systemConfiguration.getNameSystem());
 		result.setBannerUrl(systemConfiguration.getBannerUrl());
 		result.setWelcomeMessageEnglish(systemConfiguration.getWelcomeMessageEnglish());

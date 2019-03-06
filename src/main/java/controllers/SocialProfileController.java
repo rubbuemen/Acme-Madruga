@@ -93,12 +93,17 @@ public class SocialProfileController extends AbstractController {
 				result = new ModelAndView("redirect:/socialProfile/list.do");
 			}
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(socialProfile, "commit.error");
+			if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(socialProfile, "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
+			else
+				result = this.createEditModelAndView(socialProfile, "commit.error");
+
 		}
 
 		return result;
 	}
-
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int socialProfileId) {
 		ModelAndView result;

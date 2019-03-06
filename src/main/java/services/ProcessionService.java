@@ -253,29 +253,31 @@ public class ProcessionService {
 		result = this.processionRepository.save(procession);
 
 		// R32
-		final Message message = this.messageService.create();
 		final Collection<Member> members = this.memberService.findMembersByBrotherhoodLogged();
+		if (!members.isEmpty()) {
+			final Message message = this.messageService.create();
 
-		final Actor actorLogged = this.actorService.findActorLogged();
-		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
+			final Actor actorLogged = this.actorService.findActorLogged();
+			final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
 
-		final Locale locale = LocaleContextHolder.getLocale();
-		if (locale.getLanguage().equals("es")) {
-			message.setSubject("Una nueva procesión ha sido publicada");
-			message.setBody("La hermandad " + brotherhoodLogged.getTitle() + " ha publicado la procesión " + result.getTitle());
-		} else {
-			message.setSubject("A new procession has been published");
-			message.setBody("The brotherhood " + brotherhoodLogged.getTitle() + " has published the procession " + result.getTitle());
+			final Locale locale = LocaleContextHolder.getLocale();
+			if (locale.getLanguage().equals("es")) {
+				message.setSubject("Una nueva procesión ha sido publicada");
+				message.setBody("La hermandad " + brotherhoodLogged.getTitle() + " ha publicado la procesión " + result.getTitle());
+			} else {
+				message.setSubject("A new procession has been published");
+				message.setBody("The brotherhood " + brotherhoodLogged.getTitle() + " has published the procession " + result.getTitle());
+			}
+
+			final Actor sender = this.actorService.getSystemActor();
+			message.setPriority("HIGH");
+			message.setSender(sender);
+
+			final Collection<Actor> recipients = new HashSet<>();
+			recipients.addAll(members);
+			message.setRecipients(recipients);
+			this.messageService.save(message, true);
 		}
-
-		final Actor sender = this.actorService.getSystemActor();
-		message.setPriority("HIGH");
-		message.setSender(sender);
-
-		final Collection<Actor> recipients = new HashSet<>();
-		recipients.addAll(members);
-		message.setRecipients(recipients);
-		this.messageService.save(message, true);
 
 		return result;
 	}
@@ -355,6 +357,7 @@ public class ProcessionService {
 			result = procession;
 		} else {
 			result = this.processionRepository.findOne(procession.getId());
+			Assert.notNull(result, "This entity does not exist");
 			result.setTitle(procession.getTitle());
 			result.setDescription(procession.getDescription());
 			result.setMomentOrganise(procession.getMomentOrganise());

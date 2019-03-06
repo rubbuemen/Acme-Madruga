@@ -134,6 +134,7 @@ public class PositionBrotherhoodService {
 			result = positionBrotherhood;
 		else {
 			result = this.positionBrotherhoodRepository.findOne(positionBrotherhood.getId());
+			Assert.notNull(result, "This entity does not exist");
 			result.setNameEnglish(positionBrotherhood.getNameEnglish());
 			result.setNameSpanish(positionBrotherhood.getNameSpanish());
 		}

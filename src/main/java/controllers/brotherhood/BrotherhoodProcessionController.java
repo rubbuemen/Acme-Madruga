@@ -102,6 +102,10 @@ public class BrotherhoodProcessionController extends AbstractController {
 				result = this.createEditModelAndView(procession, "procession.error.area");
 			else if (oops.getMessage().equals("You can only save processions that are not in final mode"))
 				result = this.createEditModelAndView(procession, "procession.error.save.finalMode");
+			else if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(procession, "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
 			else
 				result = this.createEditModelAndView(procession, "commit.error");
 		}

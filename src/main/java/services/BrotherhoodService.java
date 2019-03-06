@@ -272,6 +272,7 @@ public class BrotherhoodService {
 			brotherhoodForm.setActor(brotherhood);
 		} else {
 			final Brotherhood res = this.brotherhoodRepository.findOne(brotherhood.getId());
+			Assert.notNull(res, "This entity does not exist");
 			res.setName(brotherhood.getName());
 			res.setMiddleName(brotherhood.getMiddleName());
 			res.setSurname(brotherhood.getSurname());

@@ -112,8 +112,8 @@ public class EnrolmentService {
 			enrolment.setMomentRegistered(momentRegistered);
 
 			// When a member is enrolled, a position must be selected
+			Assert.notNull(enrolment.getPositionBrotherhood(), "You must select a position");
 			final PositionBrotherhood positionBrotherhood = this.positionBrotherhoodService.save(enrolment.getPositionBrotherhood());
-			Assert.notNull(positionBrotherhood);
 			enrolment.setPositionBrotherhood(positionBrotherhood);
 		}
 
@@ -304,7 +304,9 @@ public class EnrolmentService {
 
 		final Brotherhood brotherhoodLogged = (Brotherhood) actorLogged;
 
-		result = this.enrolmentRepository.findEnrolmentOfBrotherhoodByMemberId(brotherhoodLogged.getId(), memberId);
+		result = this.enrolmentRepository.findEnrolmentPendingOfBrotherhoodByMemberId(brotherhoodLogged.getId(), memberId);
+		if (result == null)
+			result = this.enrolmentRepository.findEnrolmentActualOfBrotherhoodByMemberId(brotherhoodLogged.getId(), memberId);
 		Assert.notNull(result);
 
 		return result;
@@ -319,7 +321,9 @@ public class EnrolmentService {
 
 		final Member memberLogged = (Member) actorLogged;
 
-		result = this.enrolmentRepository.findEnrolmentOfBrotherhoodByMemberId(brotherhoodId, memberLogged.getId());
+		result = this.enrolmentRepository.findEnrolmentPendingOfBrotherhoodByMemberId(brotherhoodId, memberLogged.getId());
+		if (result == null)
+			result = this.enrolmentRepository.findEnrolmentActualOfBrotherhoodByMemberId(brotherhoodId, memberLogged.getId());
 		Assert.notNull(result);
 
 		return result;
@@ -370,10 +374,10 @@ public class EnrolmentService {
 		Enrolment result;
 
 		if (enrolment.getId() == 0)
-			//Esto hay que verlo
 			result = enrolment;
 		else {
 			result = this.enrolmentRepository.findOne(enrolment.getId());
+			Assert.notNull(result, "This entity does not exist");
 			result.setPositionBrotherhood(enrolment.getPositionBrotherhood());
 		}
 

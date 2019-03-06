@@ -239,6 +239,7 @@ public class FinderService {
 			result = finder;
 		else {
 			result = this.finderRepository.findOne(finder.getId());
+			Assert.notNull(result, "This entity does not exist");
 			result.setKeyWord(finder.getKeyWord());
 			result.setMinDate(finder.getMinDate());
 			result.setMaxDate(finder.getMaxDate());

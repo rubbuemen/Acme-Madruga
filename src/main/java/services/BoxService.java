@@ -291,6 +291,7 @@ public class BoxService {
 			result = box;
 		} else {
 			result = this.boxRepository.findOne(box.getId());
+			Assert.notNull(result, "This entity does not exist");
 			result.setName(box.getName());
 			result.setParentBox(box.getParentBox());
 		}

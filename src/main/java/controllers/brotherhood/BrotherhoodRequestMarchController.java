@@ -46,12 +46,17 @@ public class BrotherhoodRequestMarchController extends AbstractController {
 		ModelAndView result;
 		Collection<RequestMarch> requestsMarch;
 
-		requestsMarch = this.requestMarchService.findRequestsMarchByProcession(processionId);
-
-		result = new ModelAndView("requestMarch/list");
-
-		result.addObject("requestsMarch", requestsMarch);
-		result.addObject("requestURI", "requestMarch/brotherhood/list.do");
+		try {
+			requestsMarch = this.requestMarchService.findRequestsMarchByProcession(processionId);
+			result = new ModelAndView("requestMarch/list");
+			result.addObject("requestsMarch", requestsMarch);
+			result.addObject("requestURI", "requestMarch/brotherhood/list.do");
+		} catch (final Throwable oops) {
+			if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(null, "hacking.logged.error", null);
+			else
+				result = this.createEditModelAndView(null, "commit.error", null);
+		}
 
 		return result;
 	}
@@ -99,6 +104,10 @@ public class BrotherhoodRequestMarchController extends AbstractController {
 				result = this.createEditModelAndView(requestMarch, "requestMarch.error.exceededColumn", requestMarch.getStatus());
 			else if (oops.getMessage().equals("Two members can not march at the same row/column"))
 				result = this.createEditModelAndView(requestMarch, "requestMarch.error.repeatedRowColumn", requestMarch.getStatus());
+			else if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(requestMarch, "hacking.logged.error", requestMarch.getStatus());
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error", null);
 			else
 				result = this.createEditModelAndView(requestMarch, "commit.error", requestMarch.getStatus());
 		}

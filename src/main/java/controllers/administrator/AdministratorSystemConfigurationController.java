@@ -82,7 +82,13 @@ public class AdministratorSystemConfigurationController extends AbstractControll
 				result = new ModelAndView("redirect:/systemConfiguration/administrator/show.do");
 			}
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(systemConfiguration, "commit.error");
+			if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(systemConfiguration, "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
+			else
+				result = this.createEditModelAndView(systemConfiguration, "commit.error");
+
 		}
 
 		return result;

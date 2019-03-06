@@ -311,10 +311,10 @@ public class RequestMarchService {
 		RequestMarch result;
 
 		if (requestMarch.getId() == 0)
-			//Esto hay que verlo
 			result = requestMarch;
 		else {
 			final RequestMarch originalRequestMarch = this.requestMarchRepository.findOne(requestMarch.getId());
+			Assert.notNull(originalRequestMarch, "This entity does not exist");
 			result = requestMarch;
 			result.setMember(originalRequestMarch.getMember());
 		}

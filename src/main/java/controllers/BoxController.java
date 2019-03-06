@@ -116,6 +116,8 @@ public class BoxController extends AbstractController {
 				result = this.createEditModelAndView(box, "box.error.nameSystem");
 			else if (oops.getMessage().equals("It is not allowed to edit the system boxes"))
 				result = this.createEditModelAndView(box, "box.error.editBoxSystem");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
 			else
 				result = this.createEditModelAndView(box, "commit.error");
 

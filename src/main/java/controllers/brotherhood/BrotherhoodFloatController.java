@@ -95,7 +95,12 @@ public class BrotherhoodFloatController extends AbstractController {
 				result = new ModelAndView("redirect:/float/brotherhood/list.do");
 			}
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(floatE, "commit.error");
+			if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(floatE, "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
+			else
+				result = this.createEditModelAndView(floatE, "commit.error");
 		}
 
 		return result;

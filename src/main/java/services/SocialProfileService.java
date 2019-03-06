@@ -136,6 +136,7 @@ public class SocialProfileService {
 			result.setActor(actorLogged);
 		} else {
 			result = this.socialProfileRepository.findOne(socialProfile.getId());
+			Assert.notNull(result, "This entity does not exist");
 			result.setNick(socialProfile.getNick());
 			result.setSocialNetworkName(socialProfile.getSocialNetworkName());
 			result.setProfileLink(socialProfile.getProfileLink());

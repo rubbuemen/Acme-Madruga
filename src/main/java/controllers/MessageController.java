@@ -145,6 +145,10 @@ public class MessageController extends AbstractController {
 			if (broadcast != null) {
 				final Collection<Actor> actorsSystem = this.actorService.findAllActorsExceptLogged();
 				messageEntity.setRecipients(actorsSystem);
+				if (messageEntity.getRecipients().size() == 0) {
+					final Actor system = this.actorService.getSystemActor();
+					messageEntity.getRecipients().add(system);
+				}
 			}
 			messageEntity = this.messageService.reconstruct(messageEntity, binding);
 			if (binding.hasErrors()) {

@@ -96,7 +96,13 @@ public class AdministratorAreaController extends AbstractController {
 				result = new ModelAndView("redirect:/area/administrator/list.do");
 			}
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(area, "commit.error");
+			if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(area, "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
+			else
+				result = this.createEditModelAndView(area, "commit.error");
+
 		}
 
 		return result;

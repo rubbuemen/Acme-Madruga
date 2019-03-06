@@ -19,7 +19,7 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryC1"/></summary>
 
 <spring:message var="avg" code="dashboard.avg"/>
@@ -70,7 +70,7 @@ var chartQueryC1 = new Chart(chartQueryC1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryC2"/></summary>
 
 <display:table class="displaytag" name="queryC2" id="row">
@@ -89,7 +89,7 @@ var chartQueryC1 = new Chart(chartQueryC1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryC3"/></summary>
 
 <display:table class="displaytag" name="queryC3" id="row">
@@ -108,7 +108,7 @@ var chartQueryC1 = new Chart(chartQueryC1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryC4"/></summary>
 
 <display:table class="displaytag" name="queryC4" id="row">
@@ -128,7 +128,7 @@ var chartQueryC1 = new Chart(chartQueryC1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryC5"/></summary>
 
 <display:table class="displaytag" name="queryC5" id="row">
@@ -157,7 +157,7 @@ var chartQueryC1 = new Chart(chartQueryC1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryC6"/></summary>
 
 <display:table class="displaytag" name="queryC6" id="row">
@@ -173,7 +173,7 @@ var chartQueryC1 = new Chart(chartQueryC1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryC7"/></summary>
 
 <display:table class="displaytag" name="queryC7" id="row">
@@ -195,7 +195,7 @@ var chartQueryC1 = new Chart(chartQueryC1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryC8"/></summary>
 
 <spring:message code="dashboard.count" var="count" />
@@ -248,7 +248,7 @@ var chartQueryC8 = new Chart(chartQueryC8Id, {
 </details><br/>
 
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryB1"/></summary>
 
 <spring:message var="ratio" code="dashboard.ratio"/>
@@ -303,7 +303,7 @@ var chartQueryB1 = new Chart(chartQueryB1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryB2"/></summary>
 
 <ul>
@@ -315,7 +315,7 @@ var chartQueryB1 = new Chart(chartQueryB1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryB3"/></summary>
 
 <ul>
@@ -324,7 +324,7 @@ var chartQueryB1 = new Chart(chartQueryB1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryAPlus1"/></summary>
 
 <spring:message code="dashboard.notSpammer" var="notSpammer" />
@@ -356,7 +356,7 @@ var chartQueryAPlus1 = new Chart(chartQueryAPlus1Id, {
 
 </details><br/>
 
-<details>
+<details style="cursor:pointer;">
 <summary style="font-size: 26px;"><spring:message code="dashboard.queryAPlus2"/></summary>
 
 <spring:message code="dashboard.brotherhood" var="brotherhood" />

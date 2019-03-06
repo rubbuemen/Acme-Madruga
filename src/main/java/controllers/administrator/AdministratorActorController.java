@@ -79,6 +79,8 @@ public class AdministratorActorController extends AbstractController {
 					result = this.createEditModelAndView(actorForm.getActor(), "actor.conditions.accept");
 				else if (oops.getMessage().equals("could not execute statement; SQL [n/a]; constraint [null]" + "; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement"))
 					result = this.createEditModelAndView(actorForm.getActor(), "actor.error.duplicate.user");
+				else if (oops.getMessage().equals("This entity does not exist"))
+					result = this.createEditModelAndView(null, "hacking.notExist.error");
 				else
 					result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
 			}
@@ -116,7 +118,12 @@ public class AdministratorActorController extends AbstractController {
 			}
 
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
+			if (oops.getMessage().equals("The logged actor is not the owner of this entity"))
+				result = this.createEditModelAndView(actorForm.getActor(), "hacking.logged.error");
+			else if (oops.getMessage().equals("This entity does not exist"))
+				result = this.createEditModelAndView(null, "hacking.notExist.error");
+			else
+				result = this.createEditModelAndView(actorForm.getActor(), "commit.error");
 		}
 
 		return result;
@@ -132,7 +139,9 @@ public class AdministratorActorController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Actor actor, final String message) {
 		ModelAndView result;
-		if (actor.getId() == 0)
+		if (actor == null)
+			result = new ModelAndView("redirect:/welcome/index.do");
+		else if (actor.getId() == 0)
 			result = new ModelAndView("actor/register");
 		else
 			result = new ModelAndView("actor/edit");

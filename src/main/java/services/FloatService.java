@@ -188,6 +188,7 @@ public class FloatService {
 			result = floatE;
 		else {
 			result = this.floatRepository.findOne(floatE.getId());
+			Assert.notNull(result, "This entity does not exist");
 			result.setTitle(floatE.getTitle());
 			result.setDescription(floatE.getDescription());
 			result.setPictures(floatE.getPictures());

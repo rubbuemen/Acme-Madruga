@@ -212,6 +212,7 @@ public class MemberService {
 			memberForm.setActor(member);
 		} else {
 			final Member res = this.memberRepository.findOne(member.getId());
+			Assert.notNull(res, "This entity does not exist");
 			res.setName(member.getName());
 			res.setMiddleName(member.getMiddleName());
 			res.setSurname(member.getSurname());
