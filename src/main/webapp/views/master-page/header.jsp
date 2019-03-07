@@ -102,22 +102,6 @@
 </div>
 
 <div>
-	<a style="text-decoration: underline; color: mediumblue; cursor: pointer;" onClick="javascript:preventRedirect('language=en')">en</a> | <a style="text-decoration: underline; color: mediumblue; cursor: pointer;" onClick="javascript:preventRedirect('language=es')" >es</a>
+	<a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
-
-<script type="text/javascript">
-	function preventRedirect(path) {
-		var currentUrl = window.location.href;
-		if (currentUrl.indexOf("language=en") > 0) {
-			currentUrl = currentUrl.replace("language=en", path);
-		} else if (currentUrl.indexOf("language=es") > 0) {
-			currentUrl = currentUrl.replace("language=es", path);
-		} else if (currentUrl.indexOf("?") > 0) {
-			currentUrl += "&" + path;
-		} else {
-			currentUrl += "?" + path;
-		}
-		window.location.replace(currentUrl);
-	}
-</script>
 
